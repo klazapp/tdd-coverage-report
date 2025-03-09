@@ -43,7 +43,7 @@ class CustomHTMLReporter {
   }
 
   async onRunComplete(contexts, results) {
-    const outputPath = path.resolve(process.cwd(), "jest-custom-report.html");
+    const outputPath = path.resolve(process.cwd(), "tdd-coverage-report.html");
     const testResults = this.processTestResults(results);
 
     process.nextTick(async () => {
