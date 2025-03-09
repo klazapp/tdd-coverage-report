@@ -531,6 +531,10 @@ class CustomHTMLReporter {
       stylesPath: assetPath("styles.css"),
       bentoGridPath: assetPath("bento-grid.js"),
       navbarPath: assetPath("navbar.js"),
+      testExpandableRowsPath: assetPath("test-expandable-rows.js"),
+      testPopupPath: assetPath("test-popup.js"),
+      fileCoverageDetailsPath: assetPath("file-coverage-details.js"),
+      fileCoverageDetailsBannerPath: assetPath("file-coverage-details-banner.js"),
       savePdfPath: assetPath("save-pdf.js"),
       devIconPath: assetPath("dev-icon.svg"),
     });
