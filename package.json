@@ -1,0 +1,36 @@
+{
+  "name": "tdd-coverage-report",
+  "version": "1.0.0",
+  "description": "A custom Jest HTML reporter",
+  "main": "custom-reporter.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "type": "module",
+  "author": "Klazapp",
+  "license": "MIT",
+  "jest": {
+    "reporters": [
+      "default",
+      "../custom-jest-reporter/custom-reporter.js"
+    ]
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.13",
+    "ts-jest": "^29.2.5"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/klazapp/tdd-coverage-report.git"
+  },
+  "keywords": [
+    "jest"
+  ],
+  "bugs": {
+    "url": "https://github.com/klazapp/tdd-coverage-report/issues"
+  },
+  "homepage": "https://github.com/klazapp/tdd-coverage-report#readme"
+}

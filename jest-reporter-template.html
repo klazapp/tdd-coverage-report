@@ -1,0 +1,854 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= reportTitle %></title>
+    <link rel="stylesheet" href="custom-jest-reporter/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="custom-jest-reporter/bento-grid.js" defer></script>
+    <script src="custom-jest-reporter/navbar.js" defer></script>
+    <script src="custom-jest-reporter/test-expandable-rows.js" defer></script>
+    <script src="custom-jest-reporter/test-popup.js" defer></script>
+    <script src="custom-jest-reporter/file-coverage-details.js" defer></script>
+    <script
+      src="custom-jest-reporter/file-coverage-details-banner.js"
+      defer
+    ></script>
+    <script src="custom-jest-reporter/save-pdf.js" defer></script>
+  </head>
+  <body>
+    <section id="coverage-section"></section>
+
+    <div class="navbar">
+      <div class="navbar-left">
+        <div class="navbar-title">
+          <a href="#coverage-section" class="navbar-title-link"
+            ><%= reportTitle %></a
+          >
+        </div>
+      </div>
+      <div class="navbar-right">
+        <a href="#coverage-section" class="navbar-coverage">Coverage</a>
+        <a href="#tres-section" class="navbar-test">Tests</a>
+        <a href="#sscov-section" class="navbar-sources">Codebase</a>
+        <a
+          href="https://github.com/klazapp"
+          target="_blank"
+          class="github-icon"
+        >
+          <div class="navbar-svg-icon-container">
+            <img
+              src="custom-jest-reporter/dev-icon.svg"
+              alt="My Icon"
+              class="navbar-svg-icon"
+            />
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="bento-grid">
+      <div
+        class="bento-item a"
+        data-title="Total Coverage %"
+        data-description="Total coverage is calculated by getting averages of branch, functions, statements and line coverages."
+        data-percentage="<%= totalCoverage %>%"
+        data-status="<%= 
+                totalCoverage > totalCoverageTarget ? 'Exceeded' : 
+                totalCoverage === totalCoverageTarget ? 'Reached' : 
+                totalCoverage >= totalCoverageTarget - 10 ? 'Almost reached' : 
+                'Not reached' %>"
+        data-target="Target <%= totalCoverageTarget %>%"
+      >
+        <div class="bento-content"></div>
+      </div>
+
+      <div
+        class="bento-item b"
+        data-title="Lines %"
+        data-percentage="<%= lineCoverage %>%"
+        data-status="<%= 
+                lineCoverage > linesCoverageTarget ? 'Exceeded' : 
+                lineCoverage === linesCoverageTarget ? 'Reached' : 
+                lineCoverage >= linesCoverageTarget - 10 ? 'Almost reached' : 
+                'Not reached' %>"
+        data-target="Target <%= linesCoverageTarget %>%"
+      >
+        <div class="bento-content"></div>
+      </div>
+
+      <div
+        class="bento-item c"
+        data-title="Functions %"
+        data-percentage="<%= functionCoverage %>%"
+        data-status="<%= 
+                functionCoverage > functionsCoverageTarget ? 'Exceeded' : 
+                functionCoverage === functionsCoverageTarget ? 'Reached' : 
+                functionCoverage >= functionsCoverageTarget - 10 ? 'Almost reached' : 
+                'Not reached' %>"
+        data-target="Target <%= functionsCoverageTarget %>%"
+      >
+        <div class="bento-content"></div>
+      </div>
+
+      <div
+        class="bento-item d"
+        data-title="Branches %"
+        data-percentage="<%= branchCoverage %>%"
+        data-status="<%= 
+                branchCoverage > branchCoverageTarget ? 'Exceeded' : 
+                branchCoverage === branchCoverageTarget ? 'Reached' : 
+                branchCoverage >= branchCoverageTarget - 10 ? 'Almost reached' : 
+                'Not reached' %>"
+        data-target="Target <%= branchCoverageTarget %>%"
+      >
+        <div class="bento-content"></div>
+      </div>
+
+      <div
+        class="bento-item e"
+        data-title="Statements %"
+        data-percentage="<%= statementCoverage %>%"
+        data-status="<%= 
+                statementCoverage > statementsCoverageTarget ? 'Exceeded' : 
+                statementCoverage === statementsCoverageTarget ? 'Reached' : 
+                statementCoverage >= statementsCoverageTarget - 10 ? 'Almost reached' : 
+                'Not reached' %>"
+        data-target="Target <%= statementsCoverageTarget %>%"
+      >
+        <div class="bento-content"></div>
+      </div>
+
+      <div
+        class="bento-item f"
+        data-number="<%= totalTestSuites %>"
+        data-description="Total Suites"
+      >
+        <div class="bento-content">
+          <div class="bento-description-container">
+            <svg
+              class="bento-icon"
+              viewBox="0 0 512 512"
+              width="16"
+              height="16"
+              xmlns="http://www.w3.org/2000/svg"
+              id="fi_1442912"
+            >
+              <path
+                d="m369.164062 174.769531c7.8125 7.8125 7.8125 20.476563 0 28.285157l-134.171874 134.175781c-7.8125 7.808593-20.472657 7.808593-28.285157 0l-63.871093-63.875c-7.8125-7.808594-7.8125-20.472657 0-28.28125 7.808593-7.8125 20.472656-7.8125 28.28125 0l49.730468 49.730469 120.03125-120.035157c7.8125-7.808593 20.476563-7.808593 28.285156 0zm142.835938 81.230469c0 141.503906-114.515625 256-256 256-141.503906 0-256-114.515625-256-256 0-141.503906 114.515625-256 256-256 141.503906 0 256 114.515625 256 256zm-40 0c0-119.394531-96.621094-216-216-216-119.394531 0-216 96.621094-216 216 0 119.394531 96.621094 216 216 216 119.394531 0 216-96.621094 216-216zm0 0"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="bento-item g"
+        data-number="<%= totalTests %>"
+        data-description="Total Tests"
+      >
+        <div class="bento-content">
+          <div class="bento-description-container">
+            <svg
+              class="bento-icon"
+              viewBox="0 0 512 512"
+              width="16"
+              height="16"
+              xmlns="http://www.w3.org/2000/svg"
+              id="fi_1442912"
+            >
+              <path
+                d="m369.164062 174.769531c7.8125 7.8125 7.8125 20.476563 0 28.285157l-134.171874 134.175781c-7.8125 7.808593-20.472657 7.808593-28.285157 0l-63.871093-63.875c-7.8125-7.808594-7.8125-20.472657 0-28.28125 7.808593-7.8125 20.472656-7.8125 28.28125 0l49.730468 49.730469 120.03125-120.035157c7.8125-7.808593 20.476563-7.808593 28.285156 0zm142.835938 81.230469c0 141.503906-114.515625 256-256 256-141.503906 0-256-114.515625-256-256 0-141.503906 114.515625-256 256-256 141.503906 0 256 114.515625 256 256zm-40 0c0-119.394531-96.621094-216-216-216-119.394531 0-216 96.621094-216 216 0 119.394531 96.621094 216 216 216 119.394531 0 216-96.621094 216-216zm0 0"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div
+        class="bento-item h"
+        data-number="<%= failedSuites %>"
+        data-description="Failed Suites"
+      >
+        <div class="bento-content">
+          <div class="bento-description-container">
+            <svg
+              class="bento-icon"
+              id="fi_3364174"
+              width="16"
+              height="16"
+              viewBox="0 0 32 32"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="m16 32c-8.822 0-16-7.178-16-16s7.178-16 16-16 16 7.178 16 16-7.178 16-16 16zm0-30c-7.72 0-14 6.28-14 14s6.28 14 14 14 14-6.28 14-14-6.28-14-14-14zm5.126 20.15c-.257 0-.513-.098-.709-.294l-4.42-4.442-4.441 4.421c-.393.389-1.025.387-1.415-.003-.389-.392-.388-1.025.003-1.415l4.442-4.42-4.421-4.441c-.389-.392-.388-1.025.003-1.415.392-.39 1.024-.388 1.415.003l4.42 4.442 4.441-4.421c.392-.39 1.024-.388 1.415.003.389.392.388 1.025-.003 1.415l-4.442 4.42 4.421 4.441c.389.392.388 1.025-.003 1.415-.196.194-.451.291-.706.291z"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div
+        class="bento-item i"
+        data-number="<%= failedTests %>"
+        data-description="Failed Tests"
+      >
+        <div class="bento-content">
+          <div class="bento-description-container">
+            <svg
+              class="bento-icon"
+              id="fi_3364174"
+              width="16"
+              height="16"
+              viewBox="0 0 32 32"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="m16 32c-8.822 0-16-7.178-16-16s7.178-16 16-16 16 7.178 16 16-7.178 16-16 16zm0-30c-7.72 0-14 6.28-14 14s6.28 14 14 14 14-6.28 14-14-6.28-14-14-14zm5.126 20.15c-.257 0-.513-.098-.709-.294l-4.42-4.442-4.441 4.421c-.393.389-1.025.387-1.415-.003-.389-.392-.388-1.025.003-1.415l4.442-4.42-4.421-4.441c-.389-.392-.388-1.025.003-1.415.392-.39 1.024-.388 1.415.003l4.42 4.442 4.441-4.421c.392-.39 1.024-.388 1.415.003.389.392.388 1.025-.003 1.415l-4.442 4.42 4.421 4.441c.389.392.388 1.025-.003 1.415-.196.194-.451.291-.706.291z"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div
+        class="bento-item j"
+        data-number="<%= skippedTests %>"
+        data-description="Skipped Tests"
+      >
+        <div class="bento-content">
+          <div class="bento-description-container">
+            <svg
+              class="bento-icon"
+              id="fi_318275"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 512 512"
+              xml:space="preserve"
+            >
+              <g>
+                <g>
+                  <g>
+                    <path
+                      d="M256,0C114.618,0,0,114.618,0,256s114.618,256,256,256s256-114.618,256-256S397.382,0,256,0z M256,469.333
+				c-117.818,0-213.333-95.515-213.333-213.333S138.182,42.667,256,42.667S469.333,138.182,469.333,256S373.818,469.333,256,469.333
+				z"
+                    ></path>
+                    <path
+                      d="M228.418,134.248c-8.331-8.331-21.839-8.331-30.17,0c-8.331,8.331-8.331,21.839,0,30.17L289.83,256l-91.582,91.582
+				c-8.331,8.331-8.331,21.839,0,30.17c8.331,8.331,21.839,8.331,30.17,0l106.667-106.667c8.331-8.331,8.331-21.839,0-30.17
+				L228.418,134.248z"
+                    ></path>
+                  </g>
+                </g>
+              </g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div
+        class="bento-item k"
+        data-number="<%= runtimeError %>"
+        data-description="Runtime Error"
+      >
+        <div class="bento-content">
+          <div class="bento-description-container">
+            <svg
+              class="bento-icon"
+              id="fi_3364174"
+              width="16"
+              height="16"
+              viewBox="0 0 32 32"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="m16 32c-8.822 0-16-7.178-16-16s7.178-16 16-16 16 7.178 16 16-7.178 16-16 16zm0-30c-7.72 0-14 6.28-14 14s6.28 14 14 14 14-6.28 14-14-6.28-14-14-14zm5.126 20.15c-.257 0-.513-.098-.709-.294l-4.42-4.442-4.441 4.421c-.393.389-1.025.387-1.415-.003-.389-.392-.388-1.025.003-1.415l4.442-4.42-4.421-4.441c-.389-.392-.388-1.025.003-1.415.392-.39 1.024-.388 1.415.003l4.42 4.442 4.441-4.421c.392-.39 1.024-.388 1.415.003.389.392.388 1.025-.003 1.415l-4.442 4.42 4.421 4.441c.389.392.388 1.025-.003 1.415-.196.194-.451.291-.706.291z"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--    test results section-->
+    <!--    prefix tres-->
+    <section id="tres-section">
+      <div class="tres-expand-collapse">
+        <div class="tres-expand-all">
+          <div class="tres-expand-all-text">Expand all</div>
+          <svg class="tres-expand-all-icon" viewBox="0 0 512 512">
+            <g>
+              <g>
+                <g>
+                  <path
+                    d="M511.894,19.228c-0.031-0.316-0.09-0.622-0.135-0.933c-0.054-0.377-0.098-0.755-0.172-1.13
+                              c-0.071-0.358-0.169-0.705-0.258-1.056c-0.081-0.323-0.152-0.648-0.249-0.968c-0.104-0.345-0.234-0.678-0.355-1.015
+                              c-0.115-0.319-0.22-0.641-0.35-0.956c-0.13-0.315-0.284-0.616-0.428-0.923c-0.153-0.324-0.297-0.651-0.467-0.969
+                              c-0.158-0.294-0.337-0.574-0.508-0.86c-0.186-0.311-0.362-0.626-0.565-0.93c-0.211-0.316-0.447-0.613-0.674-0.917
+                              c-0.19-0.253-0.366-0.513-0.568-0.76c-0.443-0.539-0.909-1.058-1.402-1.551c-0.004-0.004-0.007-0.008-0.011-0.012
+                              c-0.004-0.004-0.008-0.006-0.011-0.01c-0.494-0.493-1.012-0.96-1.552-1.403c-0.247-0.203-0.507-0.379-0.761-0.569
+                              c-0.303-0.227-0.6-0.462-0.916-0.673c-0.304-0.203-0.619-0.379-0.931-0.565c-0.286-0.171-0.565-0.35-0.859-0.508
+                              c-0.318-0.17-0.644-0.314-0.969-0.467c-0.307-0.145-0.609-0.298-0.923-0.429c-0.315-0.13-0.637-0.236-0.957-0.35
+                              c-0.337-0.121-0.669-0.25-1.013-0.354c-0.32-0.097-0.646-0.168-0.969-0.249c-0.351-0.089-0.698-0.187-1.055-0.258
+                              c-0.375-0.074-0.753-0.119-1.13-0.173c-0.311-0.044-0.617-0.104-0.933-0.135C492.072,0.037,491.37,0,490.667,0H341.333
+                              C329.551,0,320,9.551,320,21.333c0,11.782,9.551,21.333,21.333,21.333h97.83L283.582,198.248c-8.331,8.331-8.331,21.839,0,30.17
+                              s21.839,8.331,30.17,0L469.333,72.837v97.83c0,11.782,9.551,21.333,21.333,21.333S512,182.449,512,170.667V21.335
+                              C512,20.631,511.963,19.928,511.894,19.228z"
+                  ></path>
+                  <path
+                    d="M198.248,283.582L42.667,439.163v-97.83c0-11.782-9.551-21.333-21.333-21.333C9.551,320,0,329.551,0,341.333v149.333
+                              c0,0.703,0.037,1.405,0.106,2.105c0.031,0.315,0.09,0.621,0.135,0.933c0.054,0.377,0.098,0.756,0.173,1.13
+                              c0.071,0.358,0.169,0.704,0.258,1.055c0.081,0.324,0.152,0.649,0.249,0.969c0.104,0.344,0.233,0.677,0.354,1.013
+                              c0.115,0.32,0.22,0.642,0.35,0.957c0.13,0.315,0.284,0.616,0.429,0.923c0.153,0.324,0.297,0.651,0.467,0.969
+                              c0.158,0.294,0.337,0.573,0.508,0.859c0.186,0.311,0.362,0.627,0.565,0.931c0.211,0.316,0.446,0.612,0.673,0.916
+                              c0.19,0.254,0.366,0.514,0.569,0.761c0.443,0.54,0.91,1.059,1.403,1.552c0.004,0.004,0.006,0.008,0.01,0.011
+                              c0.004,0.004,0.008,0.007,0.012,0.011c0.493,0.492,1.012,0.959,1.551,1.402c0.247,0.203,0.507,0.379,0.76,0.568
+                              c0.304,0.227,0.601,0.463,0.917,0.674c0.303,0.203,0.618,0.379,0.93,0.565c0.286,0.171,0.565,0.35,0.86,0.508
+                              c0.318,0.17,0.645,0.314,0.969,0.467c0.307,0.145,0.609,0.298,0.923,0.428c0.315,0.13,0.636,0.235,0.956,0.35
+                              c0.337,0.121,0.67,0.25,1.015,0.355c0.32,0.097,0.645,0.168,0.968,0.249c0.351,0.089,0.698,0.187,1.056,0.258
+                              c0.375,0.074,0.753,0.118,1.13,0.172c0.311,0.044,0.618,0.104,0.933,0.135c0.7,0.069,1.402,0.106,2.104,0.106
+                              c0,0,0.001,0,0.001,0h149.333c11.782,0,21.333-9.551,21.333-21.333s-9.551-21.333-21.333-21.333h-97.83l155.582-155.582
+                              c8.331-8.331,8.331-21.839,0-30.17S206.58,275.251,198.248,283.582z"
+                  ></path>
+                </g>
+              </g>
+            </g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+          </svg>
+        </div>
+        <div class="tres-collapse-all">
+          <div class="tres-expand-all-text">Collapse all</div>
+          <svg class="tres-collapse-all-icon" viewBox="0 0 512 512">
+            <g id="ARROW_48" data-name="ARROW 48">
+              <path
+                d="m505 7a24 24 0 0 0 -34 0l-159.4 159.4v-106.68a24 24 0 1 0 -48 0v164a24.68 24.68 0 0 0 24.68 24.68h163.89a24 24 0 0 0 24-23.54c.26-13.45-11.08-24.46-24.54-24.46h-106l159.37-159.4a24 24 0 0 0 0-34z"
+              ></path>
+              <path
+                d="m223.73 263.36h-163.89a24 24 0 0 0 -24 23.54c-.26 13.45 11.08 24.46 24.54 24.46h106.05l-159.43 159.43a24 24 0 0 0 0 33.94 24 24 0 0 0 33.94 0l159.4-159.4v106.72a24 24 0 1 0 48 0v-164a24.67 24.67 0 0 0 -24.61-24.69z"
+              ></path>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="tres-grid">
+        <div class="tres-header-row">
+          <div class="tres-header-title-container">
+            <div class="tres-header-title">Test Suites</div>
+          </div>
+          <div class="tres-header-status-container">
+            <div class="tres-header-status">Passed</div>
+            <svg
+              class="tres-header-status-icon passed"
+              viewBox="0 0 512 512"
+              id="fi_1442912"
+            >
+              <path
+                d="m369.164062 174.769531c7.8125 7.8125 7.8125 20.476563 0 28.285157l-134.171874 134.175781c-7.8125 7.808593-20.472657 7.808593-28.285157 0l-63.871093-63.875c-7.8125-7.808594-7.8125-20.472657 0-28.28125 7.808593-7.8125 20.472656-7.8125 28.28125 0l49.730468 49.730469 120.03125-120.035157c7.8125-7.808593 20.476563-7.808593 28.285156 0zm142.835938 81.230469c0 141.503906-114.515625 256-256 256-141.503906 0-256-114.515625-256-256 0-141.503906 114.515625-256 256-256 141.503906 0 256 114.515625 256 256zm-40 0c0-119.394531-96.621094-216-216-216-119.394531 0-216 96.621094-216 216 0 119.394531 96.621094 216 216 216 119.394531 0 216-96.621094 216-216zm0 0"
+              ></path>
+            </svg>
+          </div>
+
+          <div class="tres-header-status-container">
+            <div class="tres-header-status">Pending</div>
+            <svg
+              class="tres-header-status-icon pending"
+              viewBox="0 0 512 512"
+              xml:space="preserve"
+            >
+              <g>
+                <g>
+                  <g>
+                    <path
+                      d="M256,0C114.618,0,0,114.618,0,256s114.618,256,256,256s256-114.618,256-256S397.382,0,256,0z M256,469.333
+				c-117.818,0-213.333-95.515-213.333-213.333S138.182,42.667,256,42.667S469.333,138.182,469.333,256S373.818,469.333,256,469.333
+				z"
+                    ></path>
+                    <path
+                      d="M228.418,134.248c-8.331-8.331-21.839-8.331-30.17,0c-8.331,8.331-8.331,21.839,0,30.17L289.83,256l-91.582,91.582
+				c-8.331,8.331-8.331,21.839,0,30.17c8.331,8.331,21.839,8.331,30.17,0l106.667-106.667c8.331-8.331,8.331-21.839,0-30.17
+				L228.418,134.248z"
+                    ></path>
+                  </g>
+                </g>
+              </g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+            </svg>
+          </div>
+
+          <div class="tres-header-status-container">
+            <div class="tres-header-status">Failed</div>
+            <svg
+              class="tres-header-status-icon failed"
+              viewBox="0 0 512 512"
+              xml:space="preserve"
+            >
+              <g>
+                <g>
+                  <path
+                    d="M256,0C114.508,0,0,114.497,0,256c0,141.493,114.497,256,256,256c141.492,0,256-114.497,256-256
+			C512,114.507,397.503,0,256,0z M256,472c-119.384,0-216-96.607-216-216c0-119.385,96.607-216,216-216
+			c119.384,0,216,96.607,216,216C472,375.385,375.393,472,256,472z"
+                  ></path>
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path
+                    d="M343.586,315.302L284.284,256l59.302-59.302c7.81-7.81,7.811-20.473,0.001-28.284c-7.812-7.811-20.475-7.81-28.284,0
+			L256,227.716l-59.303-59.302c-7.809-7.811-20.474-7.811-28.284,0c-7.81,7.811-7.81,20.474,0.001,28.284L227.716,256
+			l-59.302,59.302c-7.811,7.811-7.812,20.474-0.001,28.284c7.813,7.812,20.476,7.809,28.284,0L256,284.284l59.303,59.302
+			c7.808,7.81,20.473,7.811,28.284,0C351.398,335.775,351.397,323.112,343.586,315.302z"
+                  ></path>
+                </g>
+              </g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+            </svg>
+          </div>
+        </div>
+
+        <!--        Data Only-->
+        <div data-test-results="<%= JSON.stringify(testResults) %>"></div>
+
+        <% testResults.forEach((testSuite, suiteIndex) => { %>
+        <div
+          class="tres-suite-row"
+          id="tres-suite-row-details-<%= suiteIndex %>"
+          data-index="<%= suiteIndex %>"
+        >
+          <div class="tres-suite-title"></div>
+          <div class="tres-suite-status-count"></div>
+          <div class="tres-suite-status-count"></div>
+          <div class="tres-suite-status-count"></div>
+        </div>
+
+        <div
+          class="tres-describe-block"
+          id="tres-describe-block-details-<%= suiteIndex %>"
+          style="display: none"
+        >
+          <% Object.keys(testSuite.groupedTests).forEach((describeBlock) => { %>
+
+          <div class="tres-describe-block-row">
+            <div class="tres-describe-block-row-title"></div>
+            <div class="tres-describe-block-status-count"></div>
+            <div class="tres-describe-block-status-count"></div>
+            <div class="tres-describe-block-status-count"></div>
+          </div>
+
+          <% testSuite.groupedTests[describeBlock].forEach((test, testIndex) =>
+          { %>
+          <div
+            class="tres-item-row"
+            data-test-code="<%= test.testFunction %>"
+            data-test-result="<%= test.testStatus %>"
+            data-test-error="<%= test.testError ? test.testError : '' %>"
+            data-test-suite="<%= testSuite.fileName %>"
+            data-describe-block="<%= describeBlock %>"
+          >
+            <div class="tres-title-container">
+              <svg class="tres-title-arrow" viewBox="0 0 24 24">
+                <path
+                  d="m22.706 14.708-4 4a1 1 0 0 1 -1.414-1.414l2.294-2.294h-12.586a4 4 0 0 1 -4-4v-5a1 1 0 0 1 2 0v5a2 2 0 0 0 2 2h12.586l-2.293-2.293a1 1 0 0 1 1.414-1.414l4 4a1 1 0 0 1 0 1.416z"
+                ></path>
+              </svg>
+              <div class="tres-title"><%= test.testTitle %></div>
+            </div>
+
+            <div
+              class="tres-status <%= test.testStatus === 'passed' ? 'test-status-passed' : '' %>"
+            >
+              <%= test.testStatus === 'passed' ? 'Passed' : '' %>
+            </div>
+            <div
+              class="tres-status <%= test.testStatus === 'pending' ? 'test-status-skipped' : '' %>"
+            >
+              <%= test.testStatus === 'pending' ? 'Pending' : '' %>
+            </div>
+            <div
+              class="tres-status <%= test.testStatus === 'failed' ? 'test-status-failed' : '' %>"
+            >
+              <%= test.testStatus === 'failed' ? 'Failed' : '' %>
+            </div>
+          </div>
+          <% }) %> <% }) %>
+        </div>
+        <% }) %>
+      </div>
+
+      <div id="tres-popup" class="popup" style="display: none">
+        <div class="tres-popup-content">
+          <span class="tres-close-popup">&times;</span>
+          <h2 id="tres-suite-name">Test Suite:</h2>
+          <h3 id="tres-describe-block-name">Describe Block:</h3>
+          <pre class="tres-pre"><code id="tres-code"></code></pre>
+          <div class="tres-result-container">
+            <h3>Test Result:</h3>
+            <p id="tres-result"></p>
+          </div>
+          <p id="tres-error-message"></p>
+        </div>
+      </div>
+    </section>
+
+    <!--    script sources with coverage section-->
+    <!--    prefix sscov-->
+    <section
+      id="sscov-section"
+      data-line-target="<%= linesCoverageTarget %>"
+      data-statement-target="<%= statementsCoverageTarget %>"
+      data-function-target="<%= functionsCoverageTarget %>"
+      data-branch-target="<%= branchCoverageTarget %>"
+      data-total-target="<%= totalCoverageTarget %>"
+    >
+      <% coverageFilesData.forEach((coverageFile, index) => { %>
+      <div
+        class="sscov-data-only hidden"
+        data-sscov-file-name="<%= coverageFile.fileName %>"
+        data-sscov-file-content="<%= coverageFile.content %>"
+      ></div>
+      <% }) %>
+      <div class="sscov-grid">
+        <div class="sscov-header-row">
+          <div class="sscov-header-row-title-container">
+            <div class="sscov-header-row-title">Script Name</div>
+          </div>
+          <div class="sscov-header-coverage-container">
+            <div class="sscov-header-coverage">Total</div>
+            <svg class="sscov-header-coverage-icon total" viewBox="0 0 512 512">
+              <g>
+                <g>
+                  <path
+                    d="M493.297,159.693c-12.477-30.878-31.231-59.828-56.199-84.792c-24.964-24.967-53.914-43.722-84.792-56.199
+			C321.426,6.222,288.617,0,255.824,0c-32.748,0-65.497,6.249-96.315,18.744c-30.814,12.49-59.695,31.242-84.607,56.158
+			c-24.915,24.911-43.668,53.792-56.158,84.607C6.25,190.324,0.001,223.072,0.001,255.821c0,32.795,6.222,65.604,18.701,96.485
+			c12.477,30.878,31.231,59.829,56.199,84.793c24.964,24.967,53.914,43.722,84.792,56.199c30.882,12.48,63.69,18.701,96.484,18.703
+			c32.748,0,65.497-6.249,96.315-18.743c30.814-12.49,59.695-31.242,84.607-56.158c24.915-24.912,43.668-53.793,56.158-84.608
+			c12.494-30.817,18.743-63.565,18.744-96.315C511.999,223.383,505.778,190.575,493.297,159.693z M461.612,339.661
+			c-10.821,26.683-27.018,51.648-48.659,73.292c-21.643,21.64-46.608,37.837-73.291,48.659
+			c-26.679,10.818-55.078,16.241-83.484,16.241c-28.477,0-56.947-5.406-83.688-16.214c-26.744-10.813-51.76-27.008-73.441-48.685
+			c-21.679-21.682-37.874-46.697-48.685-73.442c-10.808-26.741-16.214-55.212-16.213-83.689
+			c-0.002-28.406,5.422-56.804,16.239-83.483c10.821-26.683,27.018-51.648,48.659-73.291c21.643-21.64,46.608-37.837,73.292-48.659
+			c26.679-10.818,55.078-16.241,83.484-16.241c28.477,0,56.947,5.405,83.688,16.214c26.744,10.813,51.76,27.007,73.441,48.685
+			c21.679,21.682,37.873,46.697,48.685,73.441c10.808,26.741,16.214,55.211,16.214,83.688
+			C477.853,284.583,472.43,312.981,461.612,339.661z"
+                  ></path>
+                </g>
+              </g>
+              <g>
+                <g>
+                  <path
+                    d="M356.24,183.605c9.227,0,16.707-7.48,16.707-16.707v-33.412c0-4.399-1.782-8.703-4.893-11.814s-7.414-4.893-11.814-4.893
+			H155.761c-6.445,0-12.337,3.728-15.097,9.552c-2.76,5.825-1.915,12.745,2.167,17.734L234.415,256l-91.583,111.937
+			c-4.082,4.987-4.927,11.909-2.167,17.734c2.76,5.825,8.652,9.552,15.097,9.552H356.24c4.399,0,8.702-1.782,11.814-4.893
+			s4.893-7.414,4.893-11.814v-33.413c0-9.227-7.48-16.707-16.707-16.707s-16.707,7.48-16.707,16.707v16.707H191.016l77.915-95.229
+			c5.047-6.168,5.047-14.991,0-21.158l-77.915-95.229h148.517v16.706C339.534,176.124,347.014,183.605,356.24,183.605z"
+                  ></path>
+                </g>
+              </g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+              <g></g>
+            </svg>
+          </div>
+          <div class="sscov-header-coverage-container">
+            <div class="sscov-header-coverage">Lines</div>
+            <svg
+              class="sscov-header-coverage-icon lines"
+              viewBox="0 -53 384 384"
+            >
+              <path
+                d="m368 154.667969h-352c-8.832031 0-16-7.167969-16-16s7.167969-16 16-16h352c8.832031 0 16 7.167969 16 16s-7.167969 16-16 16zm0 0"
+              ></path>
+              <path
+                d="m368 32h-352c-8.832031 0-16-7.167969-16-16s7.167969-16 16-16h352c8.832031 0 16 7.167969 16 16s-7.167969 16-16 16zm0 0"
+              ></path>
+              <path
+                d="m368 277.332031h-352c-8.832031 0-16-7.167969-16-16s7.167969-16 16-16h352c8.832031 0 16 7.167969 16 16s-7.167969 16-16 16zm0 0"
+              ></path>
+            </svg>
+          </div>
+          <div class="sscov-header-coverage-container">
+            <div class="sscov-header-coverage">Functions</div>
+            <svg
+              class="sscov-header-coverage-icon functions"
+              viewBox="0 0 32 32"
+            >
+              <g>
+                <path
+                  d="m14 4a.99943.99943 0 0 0 -1-1h-.459a3.98757 3.98757 0 0 0 -3.9453 3.34277l-.949 5.69434h-1.6467a1 1 0 1 0 0 2h1.31342l-1.88178 11.29199a1.99386 1.99386 0 0 1 -1.97264 1.6709h-.459a1 1 0 0 0 0 2h.459a3.98757 3.98757 0 0 0 3.9453-3.34277l1.93646-11.62012h1.65924a1 1 0 0 0 0-2h-1.32593l.89429-5.36621a1.99386 1.99386 0 0 1 1.97264-1.6709h.459a.99943.99943 0 0 0 1-1z"
+                ></path>
+                <path
+                  d="m24.53027 11.15234a.99828.99828 0 0 0 -1.37793.31739l-1.65234 2.64373-1.65234-2.64373a.99986.99986 0 1 0 -1.69532 1.06054l2.16858 3.46973-2.16858 3.46973a.99986.99986 0 1 0 1.69532 1.06054l1.65234-2.64373 1.65234 2.64373a.99986.99986 0 0 0 1.69532-1.06054l-2.16858-3.46973 2.16858-3.46973a.9998.9998 0 0 0 -.31739-1.37793z"
+                ></path>
+                <path
+                  d="m16.60156 9.20117a.99869.99869 0 0 0 -1.40039.19727 11.63025 11.63025 0 0 0 0 13.20312 1 1 0 0 0 1.59766-1.20312 9.51272 9.51272 0 0 1 0-10.79688.99993.99993 0 0 0 -.19727-1.40039z"
+                ></path>
+                <path
+                  d="m27.79883 9.39844a1 1 0 1 0 -1.59766 1.20312 9.51272 9.51272 0 0 1 0 10.79688 1 1 0 0 0 1.59766 1.20312 11.63025 11.63025 0 0 0 0-13.20312z"
+                ></path>
+              </g>
+            </svg>
+          </div>
+          <div class="sscov-header-coverage-container">
+            <div class="sscov-header-coverage">Branches</div>
+            <svg
+              class="sscov-header-coverage-icon branches"
+              viewBox="0 0 24 24"
+            >
+              <g>
+                <path
+                  d="m7.25 7.646c-1.154-.327-2-1.388-2-2.646 0-1.518 1.232-2.75 2.75-2.75s2.75 1.232 2.75 2.75c0 1.258-.846 2.319-2 2.646v5.67c.278-.142.584-.239.909-.279 1.334-.167 3.162-.395 4.496-.562.626-.078 1.095-.61 1.095-1.241v-.588c-1.154-.327-2-1.388-2-2.646 0-1.518 1.232-2.75 2.75-2.75s2.75 1.232 2.75 2.75c0 1.258-.846 2.319-2 2.646v.588c0 1.387-1.033 2.557-2.409 2.729-1.334.167-3.162.395-4.496.562-.626.078-1.095.61-1.095 1.241v.588c1.154.327 2 1.388 2 2.646 0 1.518-1.232 2.75-2.75 2.75s-2.75-1.232-2.75-2.75c0-1.258.846-2.319 2-2.646zm.75 10.104c.69 0 1.25.56 1.25 1.25s-.56 1.25-1.25 1.25-1.25-.56-1.25-1.25.56-1.25 1.25-1.25zm8-11c.69 0 1.25.56 1.25 1.25s-.56 1.25-1.25 1.25-1.25-.56-1.25-1.25.56-1.25 1.25-1.25zm-8-3c.69 0 1.25.56 1.25 1.25s-.56 1.25-1.25 1.25-1.25-.56-1.25-1.25.56-1.25 1.25-1.25z"
+                ></path>
+              </g>
+            </svg>
+          </div>
+          <div class="sscov-header-coverage-container">
+            <div class="sscov-header-coverage">Statements</div>
+            <svg
+              class="sscov-header-coverage-icon statements"
+              viewBox="0 0 24 24"
+            >
+              <
+              <path
+                d="m1.293 12.707 4 4a1 1 0 1 0 1.414-1.414l-3.293-3.293 3.293-3.293a1 1 0 1 0 -1.414-1.414l-4 4a1 1 0 0 0 0 1.414z"
+              ></path>
+              <path
+                d="m18.707 7.293a1 1 0 1 0 -1.414 1.414l3.293 3.293-3.293 3.293a1 1 0 1 0 1.414 1.414l4-4a1 1 0 0 0 0-1.414z"
+              ></path>
+              <path
+                d="m13.039 4.726-4 14a1 1 0 0 0 .686 1.236 1.053 1.053 0 0 0 .275.038 1 1 0 0 0 .961-.726l4-14a1 1 0 1 0 -1.922-.548z"
+              ></path>
+            </svg>
+          </div>
+        </div>
+
+        <% coverageFilesData.forEach((coverageFile, index) => { %>
+        <div class="sscov-item-row">
+          <div class="sscov-file-row" data-index="<%= index %>">
+            <div class="sscov-file-name"></div>
+            <div class="sscov-coverage-percentage total"></div>
+            <div class="sscov-coverage-percentage lines"></div>
+            <div class="sscov-coverage-percentage functions"></div>
+            <div class="sscov-coverage-percentage branches"></div>
+            <div class="sscov-coverage-percentage statements"></div>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+
+      <div class="sscov-file-details-overlay"></div>
+      <% coverageFilesData.forEach((coverageFile, index) => { %>
+      <div class="sscov-file-details hidden">
+        <div class="sscov-file-header">
+          <div class="sscov-file-details-name"></div>
+          <div class="sscov-file-details-close">x</div>
+        </div>
+        <div class="sscov-file-details-coverage">
+          <!-- Total coverage item -->
+          <div class="coverage-item total">
+            <div class="title-percentage">
+              <div class="title"></div>
+              <div class="percentage"></div>
+            </div>
+            <div class="fraction"></div>
+          </div>
+
+          <!-- Lines coverage item -->
+          <div class="coverage-item lines">
+            <div class="title-percentage">
+              <div class="title"></div>
+              <div class="percentage"></div>
+            </div>
+            <div class="fraction"></div>
+          </div>
+
+          <!-- Functions coverage item -->
+          <div class="coverage-item functions">
+            <div class="title-percentage">
+              <div class="title"></div>
+              <div class="percentage"></div>
+            </div>
+            <div class="fraction"></div>
+          </div>
+
+          <!-- Branches coverage item -->
+          <div class="coverage-item branches">
+            <div class="title-percentage">
+              <div class="title"></div>
+              <div class="percentage"></div>
+            </div>
+            <div class="fraction"></div>
+          </div>
+
+          <!-- Statements coverage item -->
+          <div class="coverage-item statements">
+            <div class="title-percentage">
+              <div class="title"></div>
+              <div class="percentage"></div>
+            </div>
+            <div class="fraction"></div>
+          </div>
+        </div>
+
+        <div class="sscov-file-details-grid"></div>
+      </div>
+      <% }) %>
+
+      <div id="coverage-banner" class="coverage-banner"></div>
+    </section>
+
+    <!-- Floating Save PDF Button -->
+    <div class="floating-save-btn">
+      <div class="save-option save-basic" data-label="Basic">
+        <svg height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg"><g id="ARROW_48" data-name="ARROW 48"><path d="m505 7a24 24 0 0 0 -34 0l-159.4 159.4v-106.68a24 24 0 1 0 -48 0v164a24.68 24.68 0 0 0 24.68 24.68h163.89a24 24 0 0 0 24-23.54c.26-13.45-11.08-24.46-24.54-24.46h-106l159.37-159.4a24 24 0 0 0 0-34z"/><path d="m223.73 263.36h-163.89a24 24 0 0 0 -24 23.54c-.26 13.45 11.08 24.46 24.54 24.46h106.05l-159.43 159.43a24 24 0 0 0 0 33.94 24 24 0 0 0 33.94 0l159.4-159.4v106.72a24 24 0 1 0 48 0v-164a24.67 24.67 0 0 0 -24.61-24.69z"/></g></svg>
+      </div>
+      <div class="save-option save-comprehensive" data-label="Comprehensive">
+        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+             viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<g>
+	<g>
+		<g>
+			<path d="M511.894,19.228c-0.031-0.316-0.09-0.622-0.135-0.933c-0.054-0.377-0.098-0.755-0.172-1.13
+				c-0.071-0.358-0.169-0.705-0.258-1.056c-0.081-0.323-0.152-0.648-0.249-0.968c-0.104-0.345-0.234-0.678-0.355-1.015
+				c-0.115-0.319-0.22-0.641-0.35-0.956c-0.13-0.315-0.284-0.616-0.428-0.923c-0.153-0.324-0.297-0.651-0.467-0.969
+				c-0.158-0.294-0.337-0.574-0.508-0.86c-0.186-0.311-0.362-0.626-0.565-0.93c-0.211-0.316-0.447-0.613-0.674-0.917
+				c-0.19-0.253-0.366-0.513-0.568-0.76c-0.443-0.539-0.909-1.058-1.402-1.551c-0.004-0.004-0.007-0.008-0.011-0.012
+				c-0.004-0.004-0.008-0.006-0.011-0.01c-0.494-0.493-1.012-0.96-1.552-1.403c-0.247-0.203-0.507-0.379-0.761-0.569
+				c-0.303-0.227-0.6-0.462-0.916-0.673c-0.304-0.203-0.619-0.379-0.931-0.565c-0.286-0.171-0.565-0.35-0.859-0.508
+				c-0.318-0.17-0.644-0.314-0.969-0.467c-0.307-0.145-0.609-0.298-0.923-0.429c-0.315-0.13-0.637-0.236-0.957-0.35
+				c-0.337-0.121-0.669-0.25-1.013-0.354c-0.32-0.097-0.646-0.168-0.969-0.249c-0.351-0.089-0.698-0.187-1.055-0.258
+				c-0.375-0.074-0.753-0.119-1.13-0.173c-0.311-0.044-0.617-0.104-0.933-0.135C492.072,0.037,491.37,0,490.667,0H341.333
+				C329.551,0,320,9.551,320,21.333c0,11.782,9.551,21.333,21.333,21.333h97.83L283.582,198.248c-8.331,8.331-8.331,21.839,0,30.17
+				s21.839,8.331,30.17,0L469.333,72.837v97.83c0,11.782,9.551,21.333,21.333,21.333S512,182.449,512,170.667V21.335
+				C512,20.631,511.963,19.928,511.894,19.228z"/>
+          <path d="M198.248,283.582L42.667,439.163v-97.83c0-11.782-9.551-21.333-21.333-21.333C9.551,320,0,329.551,0,341.333v149.333
+				c0,0.703,0.037,1.405,0.106,2.105c0.031,0.315,0.09,0.621,0.135,0.933c0.054,0.377,0.098,0.756,0.173,1.13
+				c0.071,0.358,0.169,0.704,0.258,1.055c0.081,0.324,0.152,0.649,0.249,0.969c0.104,0.344,0.233,0.677,0.354,1.013
+				c0.115,0.32,0.22,0.642,0.35,0.957c0.13,0.315,0.284,0.616,0.429,0.923c0.153,0.324,0.297,0.651,0.467,0.969
+				c0.158,0.294,0.337,0.573,0.508,0.859c0.186,0.311,0.362,0.627,0.565,0.931c0.211,0.316,0.446,0.612,0.673,0.916
+				c0.19,0.254,0.366,0.514,0.569,0.761c0.443,0.54,0.91,1.059,1.403,1.552c0.004,0.004,0.006,0.008,0.01,0.011
+				c0.004,0.004,0.008,0.007,0.012,0.011c0.493,0.492,1.012,0.959,1.551,1.402c0.247,0.203,0.507,0.379,0.76,0.568
+				c0.304,0.227,0.601,0.463,0.917,0.674c0.303,0.203,0.618,0.379,0.93,0.565c0.286,0.171,0.565,0.35,0.86,0.508
+				c0.318,0.17,0.645,0.314,0.969,0.467c0.307,0.145,0.609,0.298,0.923,0.428c0.315,0.13,0.636,0.235,0.956,0.35
+				c0.337,0.121,0.67,0.25,1.015,0.355c0.32,0.097,0.645,0.168,0.968,0.249c0.351,0.089,0.698,0.187,1.056,0.258
+				c0.375,0.074,0.753,0.118,1.13,0.172c0.311,0.044,0.618,0.104,0.933,0.135c0.7,0.069,1.402,0.106,2.104,0.106
+				c0,0,0.001,0,0.001,0h149.333c11.782,0,21.333-9.551,21.333-21.333s-9.551-21.333-21.333-21.333h-97.83l155.582-155.582
+				c8.331-8.331,8.331-21.839,0-30.17S206.58,275.251,198.248,283.582z"/>
+		</g>
+	</g>
+</g>
+          <g>
+</g>
+          <g>
+</g>
+          <g>
+</g>
+          <g>
+</g>
+          <g>
+</g>
+          <g>
+</g>
+          <g>
+</g>
+          <g>
+</g>
+          <g>
+</g>
+          <g>
+</g>
+          <g>
+</g>
+          <g>
+</g>
+          <g>
+</g>
+          <g>
+</g>
+          <g>
+</g>
+</svg>
+      </div>
+      <div class="save-main">
+        <svg xmlns="http://www.w3.org/2000/svg" id="Object" viewBox="0 0 32 32" width="40" height="40">
+          <path d="M30.71,7.29l-6-6A1,1,0,0,0,24,1H4A3,3,0,0,0,1,4V28a3,3,0,0,0,3,3H28a3,3,0,0,0,3-3V8A1,1,0,0,0,30.71,7.29ZM20,3V9H12V3ZM8,29V22a1,1,0,0,1,1-1H23a1,1,0,0,1,1,1v7Zm21-1a1,1,0,0,1-1,1H26V22a3,3,0,0,0-3-3H9a3,3,0,0,0-3,3v7H4a1,1,0,0,1-1-1V4A1,1,0,0,1,4,3h6V9a2,2,0,0,0,2,2h8a2,2,0,0,0,2-2V3h1.59L29,8.41Z"
+               />
+        </svg>
+      </div>
+    </div>
+
+  </body>
+</html>
