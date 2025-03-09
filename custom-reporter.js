@@ -8,6 +8,12 @@ import { dirname } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// Get the package directory dynamically
+const packageDir = __dirname;
+
+// Function to resolve asset paths correctly
+const assetPath = (filename) => path.join(packageDir, filename);
+
 class CustomHTMLReporter {
   constructor(globalConfig, options) {
     this.options = options;
@@ -484,8 +490,19 @@ class CustomHTMLReporter {
     //   process.cwd(),
     //   "./custom-jest-reporter/jest-reporter-template.html",
     // );
+    // const templatePath = path.resolve(__dirname, "jest-reporter-template.html");
 
-    const templatePath = path.resolve(__dirname, "jest-reporter-template.html");
+    const templatePath = assetPath("jest-reporter-template.html");
+
+    // Debugging: Log to check what’s being passed to EJS
+    console.log("Rendering EJS with these variables:", {
+      reportTitle: this.reportTitle,
+      stylesPath: assetPath("styles.css"),
+      bentoGridPath: assetPath("bento-grid.js"),
+      navbarPath: assetPath("navbar.js"),
+      savePdfPath: assetPath("save-pdf.js"),
+      devIconPath: assetPath("dev-icon.svg"),
+    });
 
     return ejs.render(fs.readFileSync(templatePath, "utf-8"), {
       reportTitle: this.reportTitle,
@@ -509,6 +526,13 @@ class CustomHTMLReporter {
       totalCoverage,
       testResults,
       coverageFilesData,
+
+      // Inject correct asset paths dynamically
+      stylesPath: assetPath("styles.css"),
+      bentoGridPath: assetPath("bento-grid.js"),
+      navbarPath: assetPath("navbar.js"),
+      savePdfPath: assetPath("save-pdf.js"),
+      devIconPath: assetPath("dev-icon.svg"),
     });
   }
 
