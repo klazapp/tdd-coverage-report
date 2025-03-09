@@ -475,10 +475,13 @@ class CustomHTMLReporter {
     testResults,
     coverageFilesData,
   ) {
-    const templatePath = path.resolve(
-      process.cwd(),
-      "./custom-jest-reporter/jest-reporter-template.html",
-    );
+    // const templatePath = path.resolve(
+    //   process.cwd(),
+    //   "./custom-jest-reporter/jest-reporter-template.html",
+    // );
+
+    const templatePath = path.resolve(__dirname, "jest-reporter-template.html");
+
     return ejs.render(fs.readFileSync(templatePath, "utf-8"), {
       reportTitle: this.reportTitle,
       totalCoverageTarget: this.totalCoverageTarget,
