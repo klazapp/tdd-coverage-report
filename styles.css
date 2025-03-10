@@ -99,11 +99,12 @@ h6 {
 
 .navbar-test,
 .navbar-coverage,
-.navbar-sources {
+.navbar-sources,
+.navbar-classic{
   text-decoration: none !important;
   font-size: 1rem;
   color: #818181;
-  cursor: default;
+  cursor: pointer;
 }
 
 .navbar-right a:hover {
