@@ -51,8 +51,6 @@ class CustomHTMLReporter {
         const coverageSummary = await this.getCoverageSummary();
         const coverageFilesData = this.getHtmlFiles("coverage/lcov-report");
 
-        //console.log("coverageFiles =  " + JSON.stringify(coverageFilesData));
-
         const reportContent = this.generateReport(
           results,
           coverageSummary,
@@ -71,7 +69,6 @@ class CustomHTMLReporter {
 
  getHtmlFiles(dir) {
     const fullPath = path.resolve(process.cwd(), dir);
-    console.log(`📂 Scanning for coverage HTML files in: ${fullPath}`);
 
     const htmlFiles = [];
 
@@ -91,7 +88,6 @@ class CustomHTMLReporter {
           scanDirectory(filePath);
         } else if (file.endsWith(".html") && file !== "index.html") {
           // ✅ If it's an HTML file (not index.html), add it to the list
-          console.log(`✅ Found coverage file: ${filePath}`);
           const fileContent = fs.readFileSync(filePath, "utf8");
           htmlFiles.push({
             fileName: file,
