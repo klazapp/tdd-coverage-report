@@ -3,7 +3,8 @@ name: Publish to NPM
 on:
   push:
     tags:
-      - "v*"  # Runs only when you push a new tag like v1.0.0
+      - "v*"  # ✅ Runs when a tag like v1.0.0 is pushed
+  workflow_dispatch:  # ✅ Allows manual execution from GitHub UI
 
 jobs:
   publish:
