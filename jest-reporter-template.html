@@ -19,6 +19,7 @@
     <script src="<%= fileCoverageDetailsPath %>" defer></script>
     <script src="<%= fileCoverageDetailsBannerPath %>" defer></script>
     <script src="<%= savePdfPath %>" defer></script>
+    <script src="<%= classicCoverageScriptPath %>" defer></script>
   </head>
   <body>
     <section id="coverage-section"></section>
@@ -35,6 +36,7 @@
         <a href="#coverage-section" class="navbar-coverage">Coverage</a>
         <a href="#tres-section" class="navbar-test">Tests</a>
         <a href="#sscov-section" class="navbar-sources">Codebase</a>
+	<a href="#" class="navbar-classic" onclick="openClassicCoverage(event)">Classic</a>
         <a
           href="https://github.com/klazapp"
           target="_blank"
