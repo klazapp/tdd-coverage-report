@@ -69,20 +69,41 @@ class CustomHTMLReporter {
     });
   }
 
-  getHtmlFiles(dir) {
+ getHtmlFiles(dir) {
+    const fullPath = path.resolve(process.cwd(), dir);
+    console.log(`📂 Scanning for coverage HTML files in: ${fullPath}`);
+
     const htmlFiles = [];
 
-    fs.readdirSync(dir).forEach((file) => {
-      if (file.endsWith(".html") && file !== "index.html") {
-        const filePath = path.join(dir, file);
-        const fileContent = fs.readFileSync(filePath, "utf8");
-
-        htmlFiles.push({
-          fileName: file,
-          content: fileContent,
-        });
+    // Recursively scan directories
+    function scanDirectory(directory) {
+      if (!fs.existsSync(directory)) {
+        console.warn(`⚠️ No directory found: ${directory}`);
+        return;
       }
-    });
+
+      fs.readdirSync(directory).forEach((file) => {
+        const filePath = path.join(directory, file);
+        const stat = fs.statSync(filePath);
+
+        if (stat.isDirectory()) {
+          // ✅ If it's a folder, scan it recursively
+          scanDirectory(filePath);
+        } else if (file.endsWith(".html") && file !== "index.html") {
+          // ✅ If it's an HTML file (not index.html), add it to the list
+          console.log(`✅ Found coverage file: ${filePath}`);
+          const fileContent = fs.readFileSync(filePath, "utf8");
+          htmlFiles.push({
+            fileName: file,
+            content: fileContent,
+            path: filePath.replace(fullPath, ""), // Relative path for reference
+          });
+        }
+      });
+    }
+
+    // Start scanning from the base directory
+    scanDirectory(fullPath);
 
     return htmlFiles;
   }
