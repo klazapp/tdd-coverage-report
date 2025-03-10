@@ -494,16 +494,6 @@ class CustomHTMLReporter {
 
     const templatePath = assetPath("jest-reporter-template.html");
 
-    // Debugging: Log to check what’s being passed to EJS
-    console.log("Rendering EJS with these variables:", {
-      reportTitle: this.reportTitle,
-      stylesPath: assetPath("styles.css"),
-      bentoGridPath: assetPath("bento-grid.js"),
-      navbarPath: assetPath("navbar.js"),
-      savePdfPath: assetPath("save-pdf.js"),
-      devIconPath: assetPath("dev-icon.svg"),
-    });
-
     return ejs.render(fs.readFileSync(templatePath, "utf-8"), {
       reportTitle: this.reportTitle,
       totalCoverageTarget: this.totalCoverageTarget,
@@ -537,6 +527,9 @@ class CustomHTMLReporter {
       fileCoverageDetailsBannerPath: assetPath("file-coverage-details-banner.js"),
       savePdfPath: assetPath("save-pdf.js"),
       devIconPath: assetPath("dev-icon.svg"),
+       classicCoveragePath: "./coverage/lcov-report/index.html",
+      // ✅ Inject the new JS file dynamically
+      classicCoverageScriptPath: assetPath("classic-coverage.js"),
     });
   }
 
