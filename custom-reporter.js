@@ -454,7 +454,7 @@ class CustomHTMLReporter {
     const branchCoverage =
         totalBranches > 0 ? (coveredBranches / totalBranches) * 100 : 0;
 
-    console.log("\n📊 File-Level Coverage (two-line approach)\n");
+    console.log("\n📊 File-Level Coverage\n");
     this.printTwoRowsPerFile(fileCoverageTable, 30); // e.g. 30 chars for file name col
 
     // 7. Print a console.table of overall coverage
