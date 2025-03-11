@@ -52,10 +52,10 @@ class CustomHTMLReporter {
         const coverageFilesData = this.getHtmlFiles("coverage/lcov-report");
 
         const reportContent = this.generateReport(
-          results,
-          coverageSummary,
-          testResults,
-          coverageFilesData,
+            results,
+            coverageSummary,
+            testResults,
+            coverageFilesData,
         );
 
         fs.writeFileSync(outputPath, reportContent);
@@ -67,7 +67,7 @@ class CustomHTMLReporter {
     });
   }
 
- getHtmlFiles(dir) {
+  getHtmlFiles(dir) {
     const fullPath = path.resolve(process.cwd(), dir);
 
     const htmlFiles = [];
@@ -84,10 +84,10 @@ class CustomHTMLReporter {
         const stat = fs.statSync(filePath);
 
         if (stat.isDirectory()) {
-          // ✅ If it's a folder, scan it recursively
+          // ✅ If folder, scan recursively
           scanDirectory(filePath);
         } else if (file.endsWith(".html") && file !== "index.html") {
-          // ✅ If it's an HTML file (not index.html), add it to the list
+          // ✅ If HTML file (not index.html), add it to list
           const fileContent = fs.readFileSync(filePath, "utf8");
           htmlFiles.push({
             fileName: file,
@@ -98,7 +98,7 @@ class CustomHTMLReporter {
       });
     }
 
-    // Start scanning from the base directory
+    // Start scanning from base directory
     scanDirectory(fullPath);
 
     return htmlFiles;
@@ -106,9 +106,9 @@ class CustomHTMLReporter {
 
   async getCoverageSummary() {
     const coveragePath = path.resolve(
-      process.cwd(),
-      "coverage",
-      "coverage-final.json",
+        process.cwd(),
+        "coverage",
+        "coverage-final.json",
     );
     const maxRetries = 5;
     const delayBetweenRetries = 1000;
@@ -132,14 +132,14 @@ class CustomHTMLReporter {
 
   getHtmlContentForFile(scriptName) {
     const coverageReportDir = path.resolve(
-      process.cwd(),
-      "coverage/lcov-report",
+        process.cwd(),
+        "coverage/lcov-report",
     );
     const fileName =
-      path.basename(scriptName, path.extname(scriptName)) + ".html";
+        path.basename(scriptName, path.extname(scriptName)) + ".html";
     const filePath = path.join(coverageReportDir, fileName);
 
-    // Check if the HTML coverage report exists
+    // Check if HTML coverage report exists
     if (fs.existsSync(filePath)) {
       return fs.readFileSync(filePath, "utf8");
     } else {
@@ -151,9 +151,9 @@ class CustomHTMLReporter {
     const fileContent = fs.readFileSync(testFilePath, "utf-8");
     const lines = fileContent.split("\n");
 
-    // Find the start and end of the test function
+    // Find start and end of the test function
     const startLineIndex = lines.findIndex((line) =>
-      line.includes(`("${testTitle}"`),
+        line.includes(`("${testTitle}"`),
     );
     if (startLineIndex === -1) return "Test function not found.";
 
@@ -178,201 +178,335 @@ class CustomHTMLReporter {
 
     // Get the test code and attach line numbers
     const testCode = lines
-      .slice(startLineIndex, endLineIndex + 1)
-      .map((line, index) => {
-        const lineNumber = startLineIndex + index + 1; // Get the actual line number
-        return `${lineNumber.toString().padStart(4, " ")} | ${line}`; // Format with line number
-      })
-      .join("\n");
+        .slice(startLineIndex, endLineIndex + 1)
+        .map((line, index) => {
+          const lineNumber = startLineIndex + index + 1; // Get the actual line number
+          return `${lineNumber.toString().padStart(4, " ")} | ${line}`; // Format with line number
+        })
+        .join("\n");
+
+    return testCode;
+  }
+
+  wrapFileName(fileName, maxWidth) {
+    // Breaks the file name into lines of at most `maxWidth` characters
+    const lines = [];
+    let index = 0;
+
+    while (index < fileName.length) {
+      lines.push(fileName.slice(index, index + maxWidth));
+      index += maxWidth;
+    }
+
+    return lines;
+  }
+
+  /**
+   * Always prints two rows per file:
+   *  - Row 1: Possibly the first line of the file name + coverage columns
+   *  - Row 2: The second line (if any) of the file name, with blank coverage columns
+   *
+   * @param {Array} fileCoverageArray - e.g. [{ File, Statements, Branches, Functions, Lines }, ...]
+   * @param {number} fileNameWidth    - max width for the first line of file name
+   */
+  printTwoRowsPerFile(fileCoverageArray, fileNameWidth = 30) {
+    // Print a header (custom ASCII style)
+    // Adjust these widths to your liking
+    const colStatementsWidth = 18;
+    const colBranchesWidth = 18;
+    const colFunctionsWidth = 18;
+    const colLinesWidth = 18;
 
     console.log(
-      "test code with line numbers= " + JSON.stringify(testCode, null, 2),
+        " File Name".padEnd(fileNameWidth) +
+        " | " +
+        "Statements".padEnd(colStatementsWidth) +
+        " | " +
+        "Branches".padEnd(colBranchesWidth) +
+        " | " +
+        "Functions".padEnd(colFunctionsWidth) +
+        " | " +
+        "Lines".padEnd(colLinesWidth)
     );
-    return testCode;
+
+    // Simple separator line
+    console.log("-".repeat(fileNameWidth + colStatementsWidth + colBranchesWidth + colFunctionsWidth + colLinesWidth + 12));
+
+    fileCoverageArray.forEach((entry, index) => {
+      // 1) Slice the file name into two lines (max 2)
+      const fileName = entry.File;
+      const firstLine = fileName.slice(0, fileNameWidth);
+      let secondLine = fileName.length > fileNameWidth
+          ? fileName.slice(fileNameWidth)
+          : "";
+      // If there's leftover beyond the firstLine, put it in secondLine
+      if (fileName.length > fileNameWidth) {
+        secondLine = fileName.slice(fileNameWidth);
+      }
+
+      const statementsCell = this.padColorString(entry.Statements, colStatementsWidth);
+      const branchesCell   = this.padColorString(entry.Branches, colBranchesWidth);
+      const functionsCell  = this.padColorString(entry.Functions, colFunctionsWidth);
+      const linesCell      = this.padColorString(entry.Lines, colLinesWidth);
+
+      // Print Row 1 → coverage columns
+      console.log(
+          firstLine.padEnd(fileNameWidth) +
+          " | " + statementsCell +
+          " | " + branchesCell +
+          " | " + functionsCell +
+          " | " + linesCell
+      );
+
+      // Print Row 2 → leftover file name, coverage is empty
+      console.log(
+          secondLine.padEnd(fileNameWidth) +
+          " | " +
+          " ".repeat(colStatementsWidth) +
+          " | " +
+          " ".repeat(colBranchesWidth) +
+          " | " +
+          " ".repeat(colFunctionsWidth) +
+          " | " +
+          " ".repeat(colLinesWidth)
+      );
+    });
+  }
+
+  formatCoverage(covered, total) {
+    if (!total) {
+      return "N/A (0/0)";
+    }
+    const pct = ((covered / total) * 100).toFixed(2);
+    return `${pct}% (${covered}/${total})`;
+  }
+
+  colorCoverage(coverageString, coverageValue, coverageType) {
+    const userThreshold = this.coverageTarget[coverageType] || 80;
+
+    // coverageValue is e.g. numeric 0..100
+    if (coverageValue >= userThreshold) {
+      return `\x1b[32m${coverageString}\x1b[0m`; // green
+    } else if (coverageValue >= userThreshold - 10) {
+      return `\x1b[33m${coverageString}\x1b[0m`; // yellow
+    } else {
+      return `\x1b[31m${coverageString}\x1b[0m`; // red
+    }
+  }
+
+  stripAnsi(str) {
+    return str.replace(/\x1b\[[0-9;]*m/g, "");
+  }
+
+  padColorString(coloredStr, targetWidth) {
+    const visible = this.stripAnsi(coloredStr);
+    const visibleLength = visible.length;
+    const needed = Math.max(targetWidth - visibleLength, 0);
+    return coloredStr + " ".repeat(needed);
   }
 
   processCoverageData(coverage) {
     let totalStatements = 0,
-      coveredStatements = 0;
+        coveredStatements = 0;
     let totalFunctions = 0,
-      coveredFunctions = 0;
+        coveredFunctions = 0;
     let totalBranches = 0,
-      coveredBranches = 0;
+        coveredBranches = 0;
     let totalLines = 0,
-      coveredLines = 0;
+        coveredLines = 0;
 
+    // Store file-level coverage for console.table
+    const fileCoverageTable = [];
+
+    const fileCoverageObject = {};
+
+    // For returning detailed coverage data at the end
     const coverageData = {};
 
-    // Iterate over each file's coverage data
+    // 1. Iterate over each file's coverage data
     for (const file in coverage) {
-      let currentTotalStatements = 0;
-      let currentCoveredStatements = 0;
-      let currentStatementCoverage = 0;
-      let currentTotalFunctions = 0;
-      let currentCoveredFunctions = 0;
-      let currentFunctionCoverage = 0;
-      let currentTotalBranches = 0;
-      let currentCoveredBranches = 0;
-      let currentBranchesCoverage = 0;
-      let currentTotalLines = 0;
-      let currentCoveredLines = 0;
-      let currentLinesCoverage = 0;
-
       const fileCoverage = coverage[file];
 
+      // Distinguish covered vs. total for each metric
+      const totalFileStatements = Object.keys(fileCoverage.s).length;
+      const coveredFileStatements = Object.values(fileCoverage.s).filter(
+          (count) => count > 0
+      ).length;
+
+      const totalFileFunctions = Object.keys(fileCoverage.f).length;
+      const coveredFileFunctions = Object.values(fileCoverage.f).filter(
+          (count) => count > 0
+      ).length;
+
+      const totalFileBranches = Object.keys(fileCoverage.b).reduce(
+          (sum, key) => sum + fileCoverage.b[key].length,
+          0
+      );
+      const coveredFileBranches = Object.values(fileCoverage.b).reduce(
+          (acc, branchArray) => acc + branchArray.filter((count) => count > 0).length,
+          0
+      );
+
+      // Lines: we track unique lines vs. covered lines
       const uniqueLines = new Set();
       const coveredLineSet = new Set();
-
       for (const key in fileCoverage.statementMap) {
         const lineNumber = fileCoverage.statementMap[key].start.line;
         uniqueLines.add(lineNumber);
-
         if (fileCoverage.s[key] > 0) {
           coveredLineSet.add(lineNumber);
         }
       }
 
-      totalLines += uniqueLines.size;
-      coveredLines += coveredLineSet.size;
+      const totalFileLines = uniqueLines.size;
+      const coveredFileLines = coveredLineSet.size;
 
-      currentTotalLines += uniqueLines.size;
-      currentCoveredLines += coveredLineSet.size;
+      // 2. Accumulate to overall coverage
+      totalStatements += totalFileStatements;
+      coveredStatements += coveredFileStatements;
+      totalFunctions += totalFileFunctions;
+      coveredFunctions += coveredFileFunctions;
+      totalBranches += totalFileBranches;
+      coveredBranches += coveredFileBranches;
+      totalLines += totalFileLines;
+      coveredLines += coveredFileLines;
 
-      // Sum up statements
-      totalStatements += Object.keys(fileCoverage.s).length;
-      coveredStatements += Object.values(fileCoverage.s).filter(
-        (count) => count > 0,
-      ).length;
-
-      // Current file's statement
-      currentTotalStatements += Object.keys(fileCoverage.s).length;
-      currentCoveredStatements += Object.values(fileCoverage.s).filter(
-        (count) => count > 0,
-      ).length;
-
-      // Sum up functions
-      totalFunctions += Object.keys(fileCoverage.f).length;
-      coveredFunctions += Object.values(fileCoverage.f).filter(
-        (count) => count > 0,
-      ).length;
-
-      // Current files' functions
-      currentTotalFunctions += Object.keys(fileCoverage.f).length;
-      currentCoveredFunctions += Object.values(fileCoverage.f).filter(
-        (count) => count > 0,
-      ).length;
-
-      // Sum up branches
-      totalBranches += Object.keys(fileCoverage.b).reduce(
-        (sum, key) => sum + fileCoverage.b[key].length,
-        0,
-      );
-      coveredBranches += Object.values(fileCoverage.b).reduce(
-        (acc, branchArray) =>
-          acc + branchArray.filter((count) => count > 0).length,
-        0,
-      );
-
-      // Current branches
-      currentTotalBranches += Object.keys(fileCoverage.b).reduce(
-        (sum, key) => sum + fileCoverage.b[key].length,
-        0,
-      );
-      currentCoveredBranches += Object.values(fileCoverage.b).reduce(
-        (acc, branchArray) =>
-          acc + branchArray.filter((count) => count > 0).length,
-        0,
-      );
-
-      // Current coverages
-      currentStatementCoverage =
-        (fileCoverage.s ? (coveredStatements / totalStatements) * 100 : 0) ||
-        "N/A";
-      currentBranchesCoverage =
-        (fileCoverage.b ? (coveredBranches / totalBranches) * 100 : 0) || "N/A";
-      currentFunctionCoverage =
-        (fileCoverage.f ? (coveredFunctions / totalFunctions) * 100 : 0) ||
-        "N/A";
-      currentLinesCoverage = totalLines
-        ? (coveredLines / totalLines) * 100
-        : "N/A";
-
-      const htmlContent = this.getHtmlContentForFile(file);
+      // 3. Build file-level coverage (percentage) to store in coverageData
+      //    for returning at the end or generating HTML
+      const statementPct = (coveredStatements / totalStatements) * 100 || 0;
+      const branchPct = (coveredBranches / totalBranches) * 100 || 0;
+      const functionPct = (coveredFunctions / totalFunctions) * 100 || 0;
+      const linePct = totalLines ? (coveredLines / totalLines) * 100 : 0;
 
       coverageData[file] = {
-        statementCoverage: (
-          (coveredStatements / totalStatements) *
-          100
-        ).toFixed(2),
-        functionCoverage: ((coveredFunctions / totalFunctions) * 100).toFixed(
-          2,
-        ),
-        branchCoverage: ((coveredBranches / totalBranches) * 100).toFixed(2),
-        lineCoverage: ((coveredLines / totalLines) * 100).toFixed(2),
-        htmlContent,
+        statementCoverage: statementPct.toFixed(2),
+        functionCoverage: functionPct.toFixed(2),
+        branchCoverage: branchPct.toFixed(2),
+        lineCoverage: linePct.toFixed(2),
+        htmlContent: this.getHtmlContentForFile(file),
       };
 
-      //TODO: Make this into a nice pretty table
-      console.log(`Coverage for ${file}:`);
-      console.log(`  Statement : ${currentCoveredStatements}`);
-      console.log(`  Branch : ${currentCoveredBranches}`);
-      console.log(`  Function : ${currentCoveredFunctions}`);
-      console.log(`  Line : ${currentCoveredLines}`);
+      // 4. Prepare an entry for the console.table
+      //    Show the coverage for *this file only* using formatCoverage(...)
+      //    Shorten the file path relative to process.cwd()
+      // const shortFile = path.relative(process.cwd(), file);
+      const shortFile = path.basename(file);
 
-      console.log(`  total Statement : ${currentTotalStatements}`);
-      console.log(`  total Branch : ${currentTotalBranches}`);
-      console.log(`  total Function : ${currentTotalFunctions}`);
-      console.log(`  total Line : ${currentTotalLines}`);
+      // Add row to the object, so each file is a property -> row label
+      fileCoverageObject[shortFile] = {
+        Statements: this.formatCoverage(coveredFileStatements, totalFileStatements),
+        Branches: this.formatCoverage(coveredFileBranches, totalFileBranches),
+        Functions: this.formatCoverage(coveredFileFunctions, totalFileFunctions),
+        Lines: this.formatCoverage(coveredFileLines, totalFileLines),
+      };
 
-      console.log(
-        `  Statement Coverage: ${currentStatementCoverage.toFixed(2)}%`,
+      // 1) Compute raw coverage values (0–100)
+      const statementsValue = totalFileStatements
+          ? (coveredFileStatements / totalFileStatements) * 100
+          : 0;
+      const branchesValue = totalFileBranches
+          ? (coveredFileBranches / totalFileBranches) * 100
+          : 0;
+      const functionsValue = totalFileFunctions
+          ? (coveredFileFunctions / totalFileFunctions) * 100
+          : 0;
+      const linesValue = totalFileLines
+          ? (coveredFileLines / totalFileLines) * 100
+          : 0;
+
+      // 2) Format coverage strings normally
+      const statementsText = this.formatCoverage(
+          coveredFileStatements,
+          totalFileStatements
       );
-      console.log(`  Branch Coverage: ${currentBranchesCoverage.toFixed(2)}%`);
-      console.log(
-        `  Function Coverage: ${currentFunctionCoverage.toFixed(2)}%`,
+      const branchesText = this.formatCoverage(
+          coveredFileBranches,
+          totalFileBranches
       );
-      console.log(`  Line Coverage: ${currentLinesCoverage.toFixed(2)}%`);
+      const functionsText = this.formatCoverage(
+          coveredFileFunctions,
+          totalFileFunctions
+      );
+      const linesText = this.formatCoverage(coveredFileLines, totalFileLines);
+
+      // 3) Apply color
+      const coloredStatements = this.colorCoverage(statementsText, statementsValue, "statements");
+      const coloredBranches   = this.colorCoverage(branchesText,   branchesValue,   "branches");
+      const coloredFunctions  = this.colorCoverage(functionsText,  functionsValue,  "functions");
+      const coloredLines      = this.colorCoverage(linesText,      linesValue,      "lines");
+
+      // 4) Push into fileCoverageTable
+      fileCoverageTable.push({
+        File: shortFile,
+        Statements: coloredStatements,  // now includes ANSI color codes
+        Branches: coloredBranches,
+        Functions: coloredFunctions,
+        Lines: coloredLines,
+      });
     }
 
-    console.log("Covered lines = " + coveredLines);
-    console.log("Covered statements = " + coveredStatements);
-    console.log("Covered functions = " + coveredFunctions);
-    console.log("Covered branches = " + coveredBranches);
-
-    const lineCoverage =
-      totalLines > 0 ? (coveredLines / totalLines) * 100 : "N/A";
+    // 5. Calculate overall coverage
+    const lineCoverage = totalLines > 0 ? (coveredLines / totalLines) * 100 : 0;
     const statementCoverage =
-      totalStatements > 0 ? (coveredStatements / totalStatements) * 100 : "N/A";
+        totalStatements > 0 ? (coveredStatements / totalStatements) * 100 : 0;
     const functionCoverage =
-      totalFunctions > 0 ? (coveredFunctions / totalFunctions) * 100 : "N/A";
+        totalFunctions > 0 ? (coveredFunctions / totalFunctions) * 100 : 0;
     const branchCoverage =
-      totalBranches > 0 ? (coveredBranches / totalBranches) * 100 : "N/A";
+        totalBranches > 0 ? (coveredBranches / totalBranches) * 100 : 0;
 
-    console.log("Line coverage = " + lineCoverage);
-    console.log("Statement coverage = " + statementCoverage);
-    console.log("Function coverage = " + functionCoverage);
-    console.log("Branch coverage = " + branchCoverage);
+    console.log("\n📊 File-Level Coverage (two-line approach)\n");
+    this.printTwoRowsPerFile(fileCoverageTable, 30); // e.g. 30 chars for file name col
 
+    // 7. Print a console.table of overall coverage
+    console.log("\n📈 Overall Coverage Totals:\n");
+    console.table([
+      {
+        Metric: "Lines",
+        Covered: coveredLines,
+        Total: totalLines,
+        Percentage: `${lineCoverage.toFixed(2)}%`,
+      },
+      {
+        Metric: "Statements",
+        Covered: coveredStatements,
+        Total: totalStatements,
+        Percentage: `${statementCoverage.toFixed(2)}%`,
+      },
+      {
+        Metric: "Functions",
+        Covered: coveredFunctions,
+        Total: totalFunctions,
+        Percentage: `${functionCoverage.toFixed(2)}%`,
+      },
+      {
+        Metric: "Branches",
+        Covered: coveredBranches,
+        Total: totalBranches,
+        Percentage: `${branchCoverage.toFixed(2)}%`,
+      },
+    ]);
+
+    // 8. Return coverage details so the rest of your reporter can use them
     return {
       lines: {
         total: totalLines,
         covered: coveredLines,
-        pct: ((coveredLines / totalLines) * 100).toFixed(2),
+        pct: lineCoverage.toFixed(2),
       },
       statements: {
         total: totalStatements,
         covered: coveredStatements,
-        pct: ((coveredStatements / totalStatements) * 100).toFixed(2),
+        pct: statementCoverage.toFixed(2),
       },
       functions: {
         total: totalFunctions,
         covered: coveredFunctions,
-        pct: ((coveredFunctions / totalFunctions) * 100).toFixed(2),
+        pct: functionCoverage.toFixed(2),
       },
       branches: {
         total: totalBranches,
         covered: coveredBranches,
-        pct: ((coveredBranches / totalBranches) * 100).toFixed(2),
+        pct: branchCoverage.toFixed(2),
       },
       coverageData,
     };
@@ -396,14 +530,14 @@ class CustomHTMLReporter {
         }
 
         const testFunction = this.getTestFunctionCode(
-          testSuite.testFilePath,
-          test.title,
+            testSuite.testFilePath,
+            test.title,
         );
 
         const testError =
-          test.status === "failed" && test.failureMessages
-            ? test.failureMessages.join("\n")
-            : null;
+            test.status === "failed" && test.failureMessages
+                ? test.failureMessages.join("\n")
+                : null;
 
         groupedTests[describeBlock].push({
           testTitle: test.title,
@@ -445,17 +579,17 @@ class CustomHTMLReporter {
     let runtimeError = results.numRuntimeErrorTestSuites;
 
     const branchCoverage = isNaN(coverageSummary?.branches?.pct)
-      ? "N/A"
-      : Math.round(parseFloat(coverageSummary.branches.pct));
+        ? "N/A"
+        : Math.round(parseFloat(coverageSummary.branches.pct));
     const functionCoverage = isNaN(coverageSummary?.functions?.pct)
-      ? "N/A"
-      : Math.round(parseFloat(coverageSummary.functions.pct));
+        ? "N/A"
+        : Math.round(parseFloat(coverageSummary.functions.pct));
     const statementCoverage = isNaN(coverageSummary?.statements?.pct)
-      ? "N/A"
-      : Math.round(parseFloat(coverageSummary.statements.pct));
+        ? "N/A"
+        : Math.round(parseFloat(coverageSummary.statements.pct));
     const lineCoverage = isNaN(coverageSummary?.lines?.pct)
-      ? "N/A"
-      : Math.round(parseFloat(coverageSummary.lines.pct));
+        ? "N/A"
+        : Math.round(parseFloat(coverageSummary.lines.pct));
     const coverageValues = [
       isNaN(branchCoverage) ? null : parseFloat(branchCoverage),
       isNaN(functionCoverage) ? null : parseFloat(functionCoverage),
@@ -464,12 +598,30 @@ class CustomHTMLReporter {
     ].filter((value) => value !== null);
 
     const totalCoverage =
-      coverageValues.length > 0
-        ? coverageValues.reduce((acc, value) => acc + value, 0) /
-          coverageValues.length
-        : "N/A";
+        coverageValues.length > 0
+            ? coverageValues.reduce((acc, value) => acc + value, 0) /
+            coverageValues.length
+            : "N/A";
 
     return this.generateHtmlReport(
+        totalTestSuites,
+        totalTests,
+        passedTests,
+        failedSuites,
+        failedTests,
+        skippedTests,
+        runtimeError,
+        branchCoverage,
+        functionCoverage,
+        statementCoverage,
+        lineCoverage,
+        totalCoverage,
+        testResults,
+        coverageFilesData,
+    );
+  }
+
+  generateHtmlReport(
       totalTestSuites,
       totalTests,
       passedTests,
@@ -484,31 +636,7 @@ class CustomHTMLReporter {
       totalCoverage,
       testResults,
       coverageFilesData,
-    );
-  }
-
-  generateHtmlReport(
-    totalTestSuites,
-    totalTests,
-    passedTests,
-    failedSuites,
-    failedTests,
-    skippedTests,
-    runtimeError,
-    branchCoverage,
-    functionCoverage,
-    statementCoverage,
-    lineCoverage,
-    totalCoverage,
-    testResults,
-    coverageFilesData,
   ) {
-    // const templatePath = path.resolve(
-    //   process.cwd(),
-    //   "./custom-jest-reporter/jest-reporter-template.html",
-    // );
-    // const templatePath = path.resolve(__dirname, "jest-reporter-template.html");
-
     const templatePath = assetPath("jest-reporter-template.html");
 
     return ejs.render(fs.readFileSync(templatePath, "utf-8"), {
@@ -544,7 +672,7 @@ class CustomHTMLReporter {
       fileCoverageDetailsBannerPath: assetPath("file-coverage-details-banner.js"),
       savePdfPath: assetPath("save-pdf.js"),
       devIconPath: assetPath("dev-icon.svg"),
-       classicCoveragePath: "./coverage/lcov-report/index.html",
+      classicCoveragePath: "./coverage/lcov-report/index.html",
       // ✅ Inject the new JS file dynamically
       classicCoverageScriptPath: assetPath("classic-coverage.js"),
     });
@@ -565,19 +693,15 @@ class CustomHTMLReporter {
       command = `xdg-open "${outputPath}"`;
     }
 
-    console.log(`openReportInBrowser: Running command: ${command}`);
-
     if (command) {
       exec(command, (error) => {
         if (error) {
           console.error(`Error opening HTML report: ${error.message}`);
-        } else {
-          console.log("HTML report opened successfully in the browser.");
         }
       });
     } else {
       console.error(
-        "Unsupported platform for automatically opening the report.",
+          "Unsupported platform for automatically opening the report.",
       );
     }
   }
