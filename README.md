@@ -8,6 +8,21 @@ _A custom Jest reporter for enhanced test coverage visualization in both **conso
 
 ---
 
+## **📄 HTML Report Preview**
+### 📄 Main Page - Test Coverage Summary  
+Shows the overall test coverage percentage and key metrics.  
+![Main Page](screenshots/main-page.png)
+
+### ✅ Test Cases - Passed & Failed Tests  
+Displays detailed test results with expandable sections.  
+![Test Cases](screenshots/test-cases.png)
+
+### 📜 Script Coverage - Line & Branch Analysis  
+Highlights uncovered lines and statements for better test coverage improvement.  
+![Script Coverage](screenshots/script-coverage.png)
+
+---
+
 ## **🚀 Installation**
 You can install this package directly from **npm**:
 
@@ -145,6 +160,9 @@ If you’d like to contribute:
 ## **📞 Support**
 For issues or feature requests, [open an issue](https://github.com/klazapp/tdd-coverage-report/issues).
 
----
 
-This **README** ensures that anyone installing your package **knows how to set it up and use it immediately!** 🎉
+
+
+
+
+
