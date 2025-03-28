@@ -40,6 +40,7 @@ class CustomHTMLReporter {
 
     this.reportTitle = this.options.reportTitle || "Jest Coverage Report";
     this.enableDetailedLog = this.options.enableDetailedLog || false;
+    this.disableAutoOpen = this.options.disableAutoOpen || false;
   }
 
   async onRunComplete(contexts, results) {
@@ -60,7 +61,9 @@ class CustomHTMLReporter {
 
         fs.writeFileSync(outputPath, reportContent);
 
-        this.openReportInBrowser(outputPath);
+        if (!this.disableAutoOpen) {
+          this.openReportInBrowser(outputPath);
+        }
       } catch (err) {
         console.error("Error during report generation:", err);
       }
