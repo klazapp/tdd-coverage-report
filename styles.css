@@ -994,7 +994,7 @@ code {
 }
 
 .sscov-file-details-grid {
-  max-height: 600px;
+  max-height: 75vh;
   overflow-y: auto;
   margin-top: 10px;
   border-top: 1px solid #ddd;
@@ -1110,7 +1110,7 @@ code {
 
 .sscov-file-details-grid .grid-row {
   display: grid;
-  grid-template-columns: 2% 2% 96%;
+  grid-template-columns: 4% 2% 94%;
   transition:
     background-color 0.3s ease,
     box-shadow 0.3s ease,
