@@ -454,10 +454,33 @@ section {
   margin: 60px 0;
 }
 
-.tres-expand-collapse {
+.tres-actions-bar {
   margin: 60px 200px;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tres-left {
+  display: flex;
+  gap: 1rem;
+}
+
+.tres-right {
+  display: flex;
+  gap: 1rem;
+}
+
+.tres-expand-collapse {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  gap: 10px;
+}
+
+.tres-filter {
+  margin: 0;
+  display: flex;
   gap: 1rem;
 }
 
@@ -520,6 +543,7 @@ section {
 .tres-header-status-container {
   display: flex;
   align-items: center;
+  gap: 8px;
 }
 
 .tres-header-title-container {
@@ -528,6 +552,7 @@ section {
 
 .tres-header-status-container {
   justify-content: center;
+  margin-left: 25px;
 }
 
 .tres-header-title {
@@ -543,18 +568,19 @@ section {
   width: 16px;
   height: 16px;
   margin-top: 0.15rem;
+  transition: transform 0.2s ease, fill 0.2s ease;
+  transform-origin: center;
+  fill: #d8d8d8;
 }
 
-.tres-header-status-icon.passed {
-  fill: #28a745;
+.tres-header-status-icon.sort-asc {
+  transform: rotate(180deg) scale(1.2);
+  fill: #212121;
 }
 
-.tres-header-status-icon.pending {
-  fill: #ff8307;
-}
-
-.tres-header-status-icon.failed {
-  fill: #dc3545;
+.tres-header-status-icon.sort-desc {
+  transform: rotate(0deg) scale(1.2);
+  fill: #212121;
 }
 
 .tres-header-row,
@@ -1296,7 +1322,7 @@ code {
     font-size: 3rem;
   }
 
-  .tres-expand-collapse {
+  .tres-actions-bar {
     margin: 200px 30px 20px 30px;
   }
 
@@ -1310,6 +1336,21 @@ code {
 
   .tres-header-status {
     font-size: 0.5rem;
+    padding: 4px 8px 4px 8px;
+    border-radius: 8px;
+    color: white;
+  }
+
+  .tres-header-status.passed {
+    background: #29a745;
+  }
+
+  .tres-header-status.pending {
+    background: #ff8309;
+  }
+
+  .tres-header-status.failed {
+    background: #dc3545;
   }
 
   .tres-header-status-icon {
@@ -1366,7 +1407,7 @@ code {
     font-size: 3rem;
   }
 
-  .tres-expand-collapse {
+  .tres-actions-bar {
     margin: 200px 30px 20px 30px;
   }
 
@@ -1436,7 +1477,7 @@ code {
     font-size: 0.9rem;
   }
 
-  .tres-expand-collapse {
+  .tres-actions-bar {
     margin: 200px 100px 20px 100px;
   }
 
@@ -1513,7 +1554,7 @@ code {
     font-size: 1rem;
   }
 
-  .tres-expand-collapse {
+  .tres-actions-bar {
     margin: 200px 200px 20px 200px;
   }
 
