@@ -717,6 +717,193 @@ section {
   display: none;
 }
 
+
+/* ------                   ------ */
+/* ------                   ------ */
+/* ------                   ------ */
+/* ------ Filter Dropdown   ------ */
+/* ------                   ------ */
+/* ------                   ------ */
+/* ------                   ------ */
+
+.tres-filter{
+  justify-content: flex-end;
+  gap: 1rem;
+  display: flex;
+}
+
+.tres-filter-dropdown-container {
+  position: relative;
+}
+.tres-filter-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 10px;
+  padding: 8px 16px;
+  cursor: pointer;
+  background-color: #e0e0e0;
+
+  white-space: nowrap;
+  font-size: 0.8rem;
+  font-weight: 500;
+  gap: 0.5rem;
+}
+
+.tres-status-text {
+  color: #717171;
+  margin-right: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.tres-status-icon{
+  width: 12px;
+  height: 12px;
+  margin-left: 5px;
+}
+
+.tres-status-badge {
+  background-color: #2db9ff;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-right: 4px;
+  font-weight: 500;
+  font-size: 0.8rem;
+
+  width: 8px;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tres-filter-dropdown-arrow {
+  width: 16px;
+  height: 16px;
+  fill: #888;
+  transition: transform 0.2s ease;
+  transform: rotate(180deg);
+}
+
+.tres-filter-dropdown-arrow.rotate {
+  transform: rotate(0deg);
+  fill: #555;
+}
+
+.tres-selected-text {
+  color: #202020;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.tres-filter-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 88%;
+  margin-top: 2px;
+  border-radius: 10px;
+  background-color: #e0e0e0;
+  padding: 0.5rem;
+  display: none;
+  z-index: 999;
+}
+.tres-filter-dropdown-menu.show {
+  display: block;
+}
+
+.tres-filter-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  margin: 0.25rem 0;
+
+  transition: transform 0.2s ease;
+  transform-origin: center;
+}
+
+.tres-filter-label:hover {
+  transform: scale(1.05);
+}
+
+.tres-filter-label-text {
+  color: #ffffff;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  min-width: 60px;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.tres-filter-label-text.passed{
+  background-color: #29a745;
+}
+
+.tres-filter-label-text.pending{
+  background-color: #ff8309;
+}
+
+.tres-filter-label-text.failed{
+  background-color: #dc3545;
+}
+
+.tres-filter-status-checkbox {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  position: relative;
+}
+
+.tres-filter-status-checkbox:checked {
+  background-color: #2db9ff;
+}
+
+.tres-filter-status-checkbox:checked::after {
+  content: "";
+  position: absolute;
+  width: 3px;
+  height: 8px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.tres-filter-dropdown-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 4px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+.tres-filter-dropdown-menu li {
+  margin: 0.25rem 0;
+  display: flex;
+  align-items: center;
+}
+.tres-filter-select-all-btn {
+  margin-top: 0.5rem;
+  text-decoration: underline;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
 /* ------              ------ */
 /* ------              ------ */
 /* ------              ------ */
