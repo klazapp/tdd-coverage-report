@@ -26,6 +26,10 @@
     "type": "git",
     "url": "git+https://github.com/klazapp/tdd-coverage-report.git"
   },
+  "publishConfig": {
+  "access": "public",
+  "registry": "https://registry.npmjs.org/"
+},
   "keywords": [
     "jest"
   ],
