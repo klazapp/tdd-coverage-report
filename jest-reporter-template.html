@@ -370,12 +370,59 @@
 
         <!-- Right side: Filter -->
         <div class="tres-right">
-      <div class="tres-filter">
-        <div class="tres-status">Status</div>
+        <div class="tres-filter">
+          <div class="tres-filter-dropdown-container">
+            <div class="tres-filter-dropdown-toggle" id="statusToggle">
+              <span class ="tres-status-text">Status</span>
+              <span id="statusCount" class="tres-status-badge">0</span>
+
+              <!-- The dropdown arrow (chevron) -->
+              <svg
+                      class="tres-filter-dropdown-arrow"
+                      id="dropdownArrow"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                      data-name="Layer 1"
+              >
+                <path
+                        d="m12 16a1 1 0 0 1 -.71-.29l-6-6a1 1 0 0 1 1.42-1.42l5.29 5.3 5.29-5.29a1 1 0 0 1 1.41 1.41l-6 6a1 1 0 0 1 -.7.29z"
+                ></path>
+              </svg>
+
+            </div>
+            <div class="tres-filter-dropdown-menu" id="statusMenu">
+              <ul>
+                <li>
+                  <label class="tres-filter-label">
+                    <input type="checkbox" value="passed" class="tres-filter-status-checkbox" />
+                    <span class="tres-filter-label-text passed">Passed</span>
+                  </label>
+                </li>
+
+                <li>
+                  <label class="tres-filter-label">
+                    <input type="checkbox" value="pending" class="tres-filter-status-checkbox" />
+                    <span class="tres-filter-label-text pending">Pending</span>
+                  </label>
+                </li>
+
+                <li>
+                  <label class="tres-filter-label">
+                    <input type="checkbox" value="failed" class="tres-filter-status-checkbox" />
+                    <span class="tres-filter-label-text failed">Failed</span>
+                  </label>
+                </li>
+
+              </ul>
+<!--              <div class="tres-filter-select-all-btn" id="selectAllBtn">Select All</div>-->
+            </div>
+          </div>
+        </div>
       </div>
         </div>
 
-      </div>
       <div class="tres-grid">
         <div class="tres-header-row">
           <div class="tres-header-title-container">
