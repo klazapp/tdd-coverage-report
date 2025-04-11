@@ -220,22 +220,27 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // 4) On “Clear All”
-  clearAllBtn.addEventListener("click", function (e) {
-    e.stopPropagation();
-    checkboxes.forEach((chk) => (chk.checked = false));
-    updateLabel();
-    filterRows();
-    persistFilterSelections();
-  });
+  if(clearAllBtn)
+  {
+    clearAllBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      checkboxes.forEach((chk) => (chk.checked = false));
+      updateLabel();
+      filterRows();
+      persistFilterSelections();
+    });
+  }
 
-  // 5) On “Select All”
-  selectAllBtn.addEventListener("click", function (e) {
-    e.stopPropagation();
-    checkboxes.forEach((chk) => (chk.checked = true));
-    updateLabel();
-    filterRows();
-    persistFilterSelections();
-  });
+  if(selectAllBtn) {
+    // 5) On “Select All”
+    selectAllBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      checkboxes.forEach((chk) => (chk.checked = true));
+      updateLabel();
+      filterRows();
+      persistFilterSelections();
+    });
+  }
 
   // Helper to update the numeric badge
   function updateLabel() {
