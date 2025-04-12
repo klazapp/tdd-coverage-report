@@ -258,7 +258,14 @@ document.addEventListener("DOMContentLoaded", function () {
       if (chk.checked) selected.push(chk.value);
     });
     saveFilterState(selected);
+
+    document.dispatchEvent(
+        new CustomEvent("testExpandableFilterChanged", {
+          detail: { statusArray: selected } // e.g. ["passed","failed"]
+        })
+    );
   }
+
 
   // The main filter logic
   function filterRows() {
@@ -371,6 +378,24 @@ document.addEventListener("DOMContentLoaded", function () {
       updateClassBasedOnCount(failedEl,  suiteData.failedCount,    "failed");
     });
   }
+
+  // We'll expose a helper that sets the checkboxes to exactly the given statuses
+  function setFilterStatus(statusArray) {
+    // 1) Uncheck all, then check only those in statusArray
+    checkboxes.forEach((chk) => {
+      chk.checked = statusArray.includes(chk.value);
+    });
+    // 2) Update label, filter, and persist
+    updateLabel();
+    filterRows();
+    persistFilterSelections();
+  }
+
+  // Listen for the custom event from bento-grid.js
+  document.addEventListener("setFilterStatus", function (evt) {
+    const newStatuses = evt.detail?.statusArray || [];
+    setFilterStatus(newStatuses);
+  });
 });
 
 /* Utility function */
