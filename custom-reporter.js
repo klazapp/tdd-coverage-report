@@ -575,9 +575,11 @@ class CustomHTMLReporter {
   generateReport(results, coverageSummary, testResults, coverageFilesData) {
     let totalTestSuites = results.numTotalTestSuites;
     let totalTests = results.numTotalTests;
+    let passedSuites = results.numPassedTestSuites;
     let passedTests = results.numPassedTests;
     let failedSuites = results.numFailedTestSuites;
     let failedTests = results.numFailedTests;
+    let skippedSuites = results.numPendingTestSuites;
     let skippedTests = results.numPendingTests;
     let runtimeError = results.numRuntimeErrorTestSuites;
 
@@ -609,9 +611,11 @@ class CustomHTMLReporter {
     return this.generateHtmlReport(
         totalTestSuites,
         totalTests,
+        passedSuites,
         passedTests,
         failedSuites,
         failedTests,
+        skippedSuites,
         skippedTests,
         runtimeError,
         branchCoverage,
@@ -627,9 +631,11 @@ class CustomHTMLReporter {
   generateHtmlReport(
       totalTestSuites,
       totalTests,
+      passedSuites,
       passedTests,
       failedSuites,
       failedTests,
+      skippedSuites,
       skippedTests,
       runtimeError,
       branchCoverage,
@@ -652,9 +658,11 @@ class CustomHTMLReporter {
 
       totalTestSuites,
       totalTests,
+      passedSuites,
       passedTests,
       failedSuites,
       failedTests,
+      skippedSuites, 
       skippedTests,
       runtimeError,
       branchCoverage,
