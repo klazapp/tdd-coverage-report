@@ -528,7 +528,7 @@ h6 {
 .bento-item.l::after,
 .bento-item.m::after
 {
-  content: "Click on this to set test status filter below";
+  content: "Click on this card to set test status filter below";
   position: absolute;
   top: 120%;
   left: 50%;
