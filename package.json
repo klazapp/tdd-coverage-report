@@ -1,6 +1,6 @@
 {
   "name": "tdd-coverage-report",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A custom Jest HTML reporter",
   "main": "custom-reporter.js",
   "scripts": {
