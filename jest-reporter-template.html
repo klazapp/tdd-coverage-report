@@ -130,6 +130,7 @@
         data-number="<%= totalTestSuites %>"
         data-description="Total Suites"
       >
+        <div class="bento-clip-wrapper">
         <div class="bento-content">
           <div class="bento-description-container">
             <svg
@@ -145,6 +146,7 @@
               ></path>
             </svg>
           </div>
+        </div>
         </div>
       </div>
 
@@ -153,6 +155,7 @@
         data-number="<%= totalTests %>"
         data-description="Total Tests"
       >
+        <div class="bento-clip-wrapper">
         <div class="bento-content">
           <div class="bento-description-container">
             <svg
@@ -169,77 +172,109 @@
             </svg>
           </div>
         </div>
+        </div>
       </div>
+
       <div
-        class="bento-item h"
-        data-number="<%= failedSuites %>"
-        data-description="Failed Suites"
+              class="bento-item h"
+              data-number="<%= passedSuites %>"
+              data-description="Passed Suites"
       >
+        <div class="bento-clip-wrapper">
         <div class="bento-content">
           <div class="bento-description-container">
             <svg
-              class="bento-icon"
-              id="fi_3364174"
-              width="16"
-              height="16"
-              viewBox="0 0 32 32"
-              xmlns="http://www.w3.org/2000/svg"
+                    class="bento-icon"
+                    id="fi_3364174"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 32 32"
+                    xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="m16 32c-8.822 0-16-7.178-16-16s7.178-16 16-16 16 7.178 16 16-7.178 16-16 16zm0-30c-7.72 0-14 6.28-14 14s6.28 14 14 14 14-6.28 14-14-6.28-14-14-14zm5.126 20.15c-.257 0-.513-.098-.709-.294l-4.42-4.442-4.441 4.421c-.393.389-1.025.387-1.415-.003-.389-.392-.388-1.025.003-1.415l4.442-4.42-4.421-4.441c-.389-.392-.388-1.025.003-1.415.392-.39 1.024-.388 1.415.003l4.42 4.442 4.441-4.421c.392-.39 1.024-.388 1.415.003.389.392.388 1.025-.003 1.415l-4.442 4.42 4.421 4.441c.389.392.388 1.025-.003 1.415-.196.194-.451.291-.706.291z"
+                      d="m16 32c-8.822 0-16-7.178-16-16s7.178-16 16-16 16 7.178 16 16-7.178 16-16 16zm0-30c-7.72 0-14 6.28-14 14s6.28 14 14 14 14-6.28 14-14-6.28-14-14-14zm5.126 20.15c-.257 0-.513-.098-.709-.294l-4.42-4.442-4.441 4.421c-.393.389-1.025.387-1.415-.003-.389-.392-.388-1.025.003-1.415l4.442-4.42-4.421-4.441c-.389-.392-.388-1.025.003-1.415.392-.39 1.024-.388 1.415.003l4.42 4.442 4.441-4.421c.392-.39 1.024-.388 1.415.003.389.392.388 1.025-.003 1.415l-4.442 4.42 4.421 4.441c.389.392.388 1.025-.003 1.415-.196.194-.451.291-.706.291z"
               ></path>
             </svg>
           </div>
         </div>
+        </div>
       </div>
       <div
-        class="bento-item i"
-        data-number="<%= failedTests %>"
-        data-description="Failed Tests"
+              class="bento-item i"
+              data-number="<%= passedTests %>"
+              data-description="Passed Tests"
       >
+        <div class="bento-clip-wrapper">
         <div class="bento-content">
           <div class="bento-description-container">
             <svg
-              class="bento-icon"
-              id="fi_3364174"
-              width="16"
-              height="16"
-              viewBox="0 0 32 32"
-              xmlns="http://www.w3.org/2000/svg"
+                    class="bento-icon"
+                    id="fi_3364174"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 32 32"
+                    xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="m16 32c-8.822 0-16-7.178-16-16s7.178-16 16-16 16 7.178 16 16-7.178 16-16 16zm0-30c-7.72 0-14 6.28-14 14s6.28 14 14 14 14-6.28 14-14-6.28-14-14-14zm5.126 20.15c-.257 0-.513-.098-.709-.294l-4.42-4.442-4.441 4.421c-.393.389-1.025.387-1.415-.003-.389-.392-.388-1.025.003-1.415l4.442-4.42-4.421-4.441c-.389-.392-.388-1.025.003-1.415.392-.39 1.024-.388 1.415.003l4.42 4.442 4.441-4.421c.392-.39 1.024-.388 1.415.003.389.392.388 1.025-.003 1.415l-4.442 4.42 4.421 4.441c.389.392.388 1.025-.003 1.415-.196.194-.451.291-.706.291z"
+                      d="m16 32c-8.822 0-16-7.178-16-16s7.178-16 16-16 16 7.178 16 16-7.178 16-16 16zm0-30c-7.72 0-14 6.28-14 14s6.28 14 14 14 14-6.28 14-14-6.28-14-14-14zm5.126 20.15c-.257 0-.513-.098-.709-.294l-4.42-4.442-4.441 4.421c-.393.389-1.025.387-1.415-.003-.389-.392-.388-1.025.003-1.415l4.442-4.42-4.421-4.441c-.389-.392-.388-1.025.003-1.415.392-.39 1.024-.388 1.415.003l4.42 4.442 4.441-4.421c.392-.39 1.024-.388 1.415.003.389.392.388 1.025-.003 1.415l-4.442 4.42 4.421 4.441c.389.392.388 1.025-.003 1.415-.196.194-.451.291-.706.291z"
               ></path>
             </svg>
           </div>
         </div>
+        </div>
       </div>
+
       <div
-        class="bento-item j"
-        data-number="<%= skippedTests %>"
-        data-description="Skipped Tests"
+              class="bento-item j"
+              data-number="<%= skippedSuites %>"
+              data-description="Skipped Suites"
       >
+        <div class="bento-clip-wrapper">
         <div class="bento-content">
           <div class="bento-description-container">
             <svg
-              class="bento-icon"
-              id="fi_318275"
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 512 512"
-              xml:space="preserve"
+                    class="bento-icon"
+                    id="fi_3364174"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 32 32"
+                    xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                      d="m16 32c-8.822 0-16-7.178-16-16s7.178-16 16-16 16 7.178 16 16-7.178 16-16 16zm0-30c-7.72 0-14 6.28-14 14s6.28 14 14 14 14-6.28 14-14-6.28-14-14-14zm5.126 20.15c-.257 0-.513-.098-.709-.294l-4.42-4.442-4.441 4.421c-.393.389-1.025.387-1.415-.003-.389-.392-.388-1.025.003-1.415l4.442-4.42-4.421-4.441c-.389-.392-.388-1.025.003-1.415.392-.39 1.024-.388 1.415.003l4.42 4.442 4.441-4.421c.392-.39 1.024-.388 1.415.003.389.392.388 1.025-.003 1.415l-4.442 4.42 4.421 4.441c.389.392.388 1.025-.003 1.415-.196.194-.451.291-.706.291z"
+              ></path>
+            </svg>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div
+              class="bento-item k"
+              data-number="<%= skippedTests %>"
+              data-description="Skipped Tests"
+      >
+        <div class="bento-clip-wrapper">
+        <div class="bento-content">
+          <div class="bento-description-container">
+            <svg
+                    class="bento-icon"
+                    id="fi_318275"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 512 512"
+                    xml:space="preserve"
             >
               <g>
                 <g>
                   <g>
                     <path
-                      d="M256,0C114.618,0,0,114.618,0,256s114.618,256,256,256s256-114.618,256-256S397.382,0,256,0z M256,469.333
+                            d="M256,0C114.618,0,0,114.618,0,256s114.618,256,256,256s256-114.618,256-256S397.382,0,256,0z M256,469.333
 				c-117.818,0-213.333-95.515-213.333-213.333S138.182,42.667,256,42.667S469.333,138.182,469.333,256S373.818,469.333,256,469.333
 				z"
                     ></path>
                     <path
-                      d="M228.418,134.248c-8.331-8.331-21.839-8.331-30.17,0c-8.331,8.331-8.331,21.839,0,30.17L289.83,256l-91.582,91.582
+                            d="M228.418,134.248c-8.331-8.331-21.839-8.331-30.17,0c-8.331,8.331-8.331,21.839,0,30.17L289.83,256l-91.582,91.582
 				c-8.331,8.331-8.331,21.839,0,30.17c8.331,8.331,21.839,8.331,30.17,0l106.667-106.667c8.331-8.331,8.331-21.839,0-30.17
 				L228.418,134.248z"
                     ></path>
@@ -264,12 +299,15 @@
             </svg>
           </div>
         </div>
+        </div>
       </div>
+
       <div
-        class="bento-item k"
-        data-number="<%= runtimeError %>"
-        data-description="Runtime Error"
+        class="bento-item l"
+        data-number="<%= failedSuites %>"
+        data-description="Failed Suites"
       >
+        <div class="bento-clip-wrapper">
         <div class="bento-content">
           <div class="bento-description-container">
             <svg
@@ -285,6 +323,31 @@
               ></path>
             </svg>
           </div>
+        </div>
+        </div>
+      </div>
+      <div
+        class="bento-item m"
+        data-number="<%= failedTests %>"
+        data-description="Failed Tests"
+      >
+        <div class="bento-clip-wrapper">
+        <div class="bento-content">
+          <div class="bento-description-container">
+            <svg
+              class="bento-icon"
+              id="fi_3364174"
+              width="16"
+              height="16"
+              viewBox="0 0 32 32"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="m16 32c-8.822 0-16-7.178-16-16s7.178-16 16-16 16 7.178 16 16-7.178 16-16 16zm0-30c-7.72 0-14 6.28-14 14s6.28 14 14 14 14-6.28 14-14-6.28-14-14-14zm5.126 20.15c-.257 0-.513-.098-.709-.294l-4.42-4.442-4.441 4.421c-.393.389-1.025.387-1.415-.003-.389-.392-.388-1.025.003-1.415l4.442-4.42-4.421-4.441c-.389-.392-.388-1.025.003-1.415.392-.39 1.024-.388 1.415.003l4.42 4.442 4.441-4.421c.392-.39 1.024-.388 1.415.003.389.392.388 1.025-.003 1.415l-4.442 4.42 4.421 4.441c.389.392.388 1.025-.003 1.415-.196.194-.451.291-.706.291z"
+              ></path>
+            </svg>
+          </div>
+        </div>
         </div>
       </div>
     </div>
