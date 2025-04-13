@@ -1179,6 +1179,33 @@ code {
   padding: 10px;
 }
 
+.sscov-file-name {
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 240px;
+  display: inline-block;
+  vertical-align: top;
+    z-index: 100; /* add this */
+}
+
+#global-tooltip {
+  position: absolute;
+  max-width: 300px;
+  background-color: #333;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  z-index: 9999;
+}
+
 .sscov-header-coverage {
   text-align: center;
   margin-right: 8px;
@@ -1251,6 +1278,7 @@ code {
   border-radius: 10px;
   box-shadow: rgb(32 32 32 / 10%) 5px 6px 11px 0;
   color: #515151;
+  overflow: visible;
 }
 
 .sscov-file-row:hover {
@@ -1258,6 +1286,10 @@ code {
   box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
   border-radius: 6px;
   transform: scale(1.01);
+}
+
+.sscov-item-row {
+  overflow: visible;
 }
 
 .sscov-file-details {
