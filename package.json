@@ -1,10 +1,13 @@
 {
   "name": "tdd-coverage-report",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "A custom Jest HTML reporter",
   "main": "custom-reporter.js",
   "scripts": {
     "test": "jest"
+  },
+  "bin": {
+    "coverageOne": "bin/coverageOne.js"
   },
   "type": "module",
   "author": "Klazapp",
