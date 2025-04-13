@@ -686,6 +686,7 @@ class CustomHTMLReporter {
       classicCoveragePath: "./coverage/lcov-report/index.html",
       // ✅ Inject the new JS file dynamically
       classicCoverageScriptPath: assetPath("classic-coverage.js"),
+      tooltipScriptPath: assetPath("global-tooltip.js"),
     });
   }
 
