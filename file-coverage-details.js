@@ -242,7 +242,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (!fileName) return;
 
-      fileNameDiv.textContent = fileName;
+
+      const cleanFileName = fileName.replace(/\.html$/, "");
+      fileNameDiv.textContent = cleanFileName;
+      fileNameDiv.setAttribute("data-tooltip", cleanFileName);
+
       filePercentageTotalDiv.textContent = totalCoveragePercentageVal;
       if (hitTotalTarget) {
         filePercentageTotalDiv.classList.add("hit-target");
