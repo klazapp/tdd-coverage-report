@@ -96,10 +96,6 @@ Once the tests complete, your **custom HTML report** will be generated in the **
 
 ---
 
-Below is **just the “Single-File Coverage with `coverageOne`”** section that you can add to your existing README, showing how to use the CLI for coverage on a single test file + single source file:
-
----
-
 ## **🔍 Single-File Coverage with `coverageOne`**
 
 Sometimes you want coverage **only** for a single test file and a single source file. Our package provides a CLI named **`coverageOne`** for that.
